@@ -1,0 +1,11 @@
+{
+    "available": "可用资金：{amount}",
+    "empty": "暂无账单数据",
+    "income": "收入：{amount}",
+    "incomeSource": "收入来源",
+    "loading": "加载中...",
+    "operator": "操作员：{name}",
+    "outlay": "支出：{amount}",
+    "outlayTarget": "支出目标",
+    "transactionContent": "交易内容"
+}

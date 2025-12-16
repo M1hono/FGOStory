@@ -1,0 +1,6 @@
+{
+    "lastUpdated": "最后更新于: {date}",
+    "pageViews": "浏览量: {count}",
+    "readingTime": "阅读时间: {time} 分钟",
+    "wordCount": "字数: {count} 字"
+}

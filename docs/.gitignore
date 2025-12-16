@@ -1,0 +1,15 @@
+.probe
+typefiles
+.vitepress/cache
+.vitepress/dist
+.vscode/settings.json
+node_modules
+route.bash
+.vitepress/dev.json
+*.DS_Store
+*.temp
+output.html
+.cache
+.vitepress/config.mts.timestamp*
+src/.vitepress/*
+*test*.md*

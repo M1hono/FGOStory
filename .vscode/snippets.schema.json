@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VitePress Hero Snippets Configuration",
+  "description": "Configuration for floating code snippets in VitePress hero section",
+  "type": "array",
+  "items": {
+    "oneOf": [
+      {
+        "type": "object",
+        "title": "Snippet Category",
+        "description": "A category of code snippets with styling and content",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Unique identifier for the snippet category",
+            "pattern": "^[a-zA-Z0-9-_]+$"
+          },
+          "snippets": {
+            "type": "array",
+            "description": "Array of text snippets to display",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 1
+          },
+          "color": {
+            "type": "string",
+            "description": "Color for snippets in light mode (CSS color value)",
+            "pattern": "^(#[0-9A-Fa-f]{3,6}|rgb\\(\\s*\\d+\\s*,\\s*\\d+\\s*,\\s*\\d+\\s*\\)|rgba\\(\\s*\\d+\\s*,\\s*\\d+\\s*,\\s*\\d+\\s*,\\s*[0-9.]*\\s*\\)|hsl\\(\\s*\\d+\\s*,\\s*\\d+%\\s*,\\s*\\d+%\\s*\\)|hsla\\(\\s*\\d+\\s*,\\s*\\d+%\\s*,\\s*\\d+%\\s*,\\s*[0-9.]*\\s*\\)|transparent|currentColor|inherit|initial|unset)$"
+          },
+          "darkColor": {
+            "type": "string",
+            "description": "Color for snippets in dark mode (CSS color value)",
+            "pattern": "^(#[0-9A-Fa-f]{3,6}|rgb\\(\\s*\\d+\\s*,\\s*\\d+\\s*,\\s*\\d+\\s*\\)|rgba\\(\\s*\\d+\\s*,\\s*\\d+\\s*,\\s*\\d+\\s*,\\s*[0-9.]*\\s*\\)|hsl\\(\\s*\\d+\\s*,\\s*\\d+%\\s*,\\s*\\d+%\\s*\\)|hsla\\(\\s*\\d+\\s*,\\s*\\d+%\\s*,\\s*\\d+%\\s*,\\s*[0-9.]*\\s*\\)|transparent|currentColor|inherit|initial|unset)$"
+          }
+        },
+        "required": ["name", "snippets"],
+        "additionalProperties": false
+      },
+      {
+        "type": "object",
+        "title": "Snippet Control",
+        "description": "Control whether snippets are enabled or disabled",
+        "properties": {
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether to enable or disable all snippets"
+          }
+        },
+        "required": ["enabled"],
+        "additionalProperties": false
+      }
+    ]
+  },
+  "examples": [
+    [
+      {
+        "enabled": true
+      },
+      {
+        "name": "template-features",
+        "color": "#646cff",
+        "darkColor": "#747bff",
+        "snippets": [
+          "功能丰富的 VitePress 模版",
+          "开箱即用的文档解决方案",
+          "现代主题设计",
+          "完整的 SEO 优化"
+        ]
+      }
+    ]
+  ]
+} 

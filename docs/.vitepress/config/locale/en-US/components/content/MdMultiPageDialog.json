@@ -1,0 +1,8 @@
+{
+    "closeButton": "Close",
+    "defaultText": "Click to open",
+    "defaultTitle": "Multi-Page Dialog",
+    "nextButton": "Next",
+    "pageIndicator": "Page {current} of {total}",
+    "prevButton": "Prev"
+}

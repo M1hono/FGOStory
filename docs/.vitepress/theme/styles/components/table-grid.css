@@ -1,0 +1,23 @@
+/* Responsive behavior */
+@media (max-width: 768px) {
+    .chart-grid-responsive,
+    .table-grid-responsive {
+        grid-template-columns: 1fr !important; /* Force single column on mobile */
+        gap: 20px !important;
+    }
+}
+
+/* Minimal chart styling - remove backgrounds and borders */
+.chart-grid .echarts-container,
+.table-grid .echarts-container {
+    margin: 0 !important;
+    height: 100%; /* Fill grid cell */
+    min-height: 280px;
+}
+
+/* Basic table styling */
+.table-grid table {
+    margin: 0 !important;
+    width: 100%;
+    height: fit-content;
+}

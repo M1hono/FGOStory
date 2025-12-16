@@ -1,0 +1,5 @@
+{
+    "commitsOnDate": "在{date}有{count}次提交",
+    "recentCommits": "最近提交",
+    "repoActivity": "仓库活动"
+}

@@ -1,0 +1,57 @@
+[
+    {
+        "name": "template-features",
+        "color": "#646cff",
+        "darkColor": "#747bff",
+        "snippets": [
+            "功能丰富的 VitePress 模版",
+            "开箱即用的文档解决方案",
+            "现代主题设计",
+            "完整的 SEO 优化"
+        ]
+    },
+    {
+        "name": "markdown-enhancements",
+        "color": "#4fc08d",
+        "darkColor": "#42b883",
+        "snippets": [
+            "扩展的 Markdown 语法",
+            "代码组和标签",
+            "数学公式渲染",
+            "Mermaid 图表集成"
+        ]
+    },
+    {
+        "name": "search-integration",
+        "color": "#f7df1e",
+        "darkColor": "#f0d91d",
+        "snippets": [
+            "Algolia 全文搜索",
+            "智能建议",
+            "实时搜索体验",
+            "多语言支持"
+        ]
+    },
+    {
+        "name": "development-tools",
+        "color": "#dc2626",
+        "darkColor": "#f87171",
+        "snippets": [
+            "自动生成的侧边栏",
+            "Git 集成功能",
+            "开发工具链",
+            "性能优化"
+        ]
+    },
+    {
+        "name": "deployment",
+        "color": "#7c3aed",
+        "darkColor": "#a78bfa",
+        "snippets": [
+            "GitHub Pages 集成",
+            "Vercel 一键部署",
+            "CI/CD 工作流",
+            "多平台支持"
+        ]
+    }
+]

@@ -1,0 +1,6 @@
+{
+    "lastUpdated": "Last updated on: {date}",
+    "pageViews": "Page views: {count}",
+    "readingTime": "Reading time: {time} minutes",
+    "wordCount": "Word count: {count} words"
+}

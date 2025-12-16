@@ -1,0 +1,12 @@
+{
+    "actualDamage": "实际伤害",
+    "armorPoints": "护甲点数",
+    "armorToughness": "护甲韧性",
+    "bedrockEdition": "基岩版",
+    "damageReduction": "伤害减免 (%)",
+    "incomingDamage": "受到的伤害",
+    "javaEdition": "Java 版",
+    "maxArmorPoints": "最大护甲点数",
+    "maxDamage": "最大伤害",
+    "minDamage": "最小伤害"
+}

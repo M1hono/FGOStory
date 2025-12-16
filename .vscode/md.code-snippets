@@ -1,0 +1,1699 @@
+{
+    // ===================================================================
+    // =========== VITEPRESS FRONTMATTER & PAGE TEMPLATES ================
+    // ===================================================================
+    // if you change the prefix, you need to mofiy the documents
+    // English bersion: doc/en/doc/vscode-snippets-guide.md
+    // Chinese bersion: doc/zh/doc/vscode-snippets-guide.md
+
+    "@Page Template": {
+        "prefix": "@page-template",
+        "body": [
+            "---",
+            "title: ${1:Page Title}",
+            "description: ${2:Page description}",
+            "layout: doc",
+            "---",
+            "",
+            "# {{ $frontmatter.title }}",
+            "",
+            "$0"
+        ],
+        "description": "Scaffold a standard VitePress documentation page."
+    },
+
+    "@Root Section Template": {
+        "prefix": "@root-template",
+        "body": [
+            "---",
+            "root: true",
+            "title: ${1:Section Title}",
+            "collapsed: ${2|true,false|}",
+            "layout: doc",
+            "prev: false",
+            "next: false",
+            "---",
+            "",
+            "# {{ $frontmatter.title }}",
+            "",
+            "$0"
+        ],
+        "description": "Scaffold a new root section for the sidebar."
+    },
+
+    "@Frontmatter Block": {
+        "prefix": "@frontmatter",
+        "body": ["---", "${1:key}: ${2:value}", "---", "$0"],
+        "description": "Insert a basic frontmatter block."
+    },
+
+    "@Frontmatter Complete": {
+        "prefix": "@frontmatter-complete",
+        "body": [
+            "---",
+            "title: ${1:Page Title}",
+            "description: ${2:Page description}",
+            "layout: ${3:doc}",
+            "prev: ${4|false,true|}",
+            "next: ${5|false,true|}",
+            "authors:",
+            "  - ${6:author1}",
+            "tags:",
+            "  - ${7:tag1}",
+            "progress: ${8:100}",
+            "state: ${9|published,preliminary,unfinished,outdated,renovating|}",
+            "externalLinks:",
+            "  - text: \"${10:Link Text}\"",
+            "    link: \"${11:https://example.com}\"",
+            "    priority: ${12:0}",
+            "---",
+            "",
+            "# {{ $frontmatter.title }}",
+            "",
+            "$0"
+        ],
+        "description": "Generate a comprehensive frontmatter block."
+    },
+
+    // ---------- Individual Frontmatter Fields ----------
+
+    "@fm: Title": {
+        "prefix": "@fm-title",
+        "body": ["title: ${1:Page Title}"],
+        "description": "Frontmatter: Page title."
+    },
+    "@fm: Description": {
+        "prefix": "@fm-description",
+        "body": ["description: ${1:Page description}"],
+        "description": "Frontmatter: Page description."
+    },
+    "@fm: Root": {
+        "prefix": "@fm-root",
+        "body": ["root: ${1|true,false|}"],
+        "description": "Frontmatter: Whether this page is a sidebar root."
+    },
+    "@fm: Collapsed": {
+        "prefix": "@fm-collapsed",
+        "body": ["collapsed: ${1|true,false|}"],
+        "description": "Frontmatter: Whether the sidebar section is collapsed."
+    },
+    "@fm: Hidden": {
+        "prefix": "@fm-hidden",
+        "body": ["hidden: ${1|true,false|}"],
+        "description": "Frontmatter: Hide page from the sidebar."
+    },
+    "@fm: Layout": {
+        "prefix": "@fm-layout",
+        "body": ["layout: ${1|doc,home,page|}"],
+        "description": "Frontmatter: Set VitePress page layout."
+    },
+    "@fm: Prev/Next": {
+        "prefix": "@fm-prevnext",
+        "body": ["prev: ${1|false,true|}", "next: ${2|false,true|}"],
+        "description": "Frontmatter: Set previous/next page navigation."
+    },
+    "@fm: Authors": {
+        "prefix": "@fm-authors",
+        "body": ["authors:", "  - ${1:author}"],
+        "description": "Frontmatter: Set page authors."
+    },
+    "@fm: Tags": {
+        "prefix": "@fm-tags",
+        "body": ["tags:", "  - ${1:tag}"],
+        "description": "Frontmatter: Set page tags."
+    },
+    "@fm: Progress": {
+        "prefix": "@fm-progress",
+        "body": ["progress: ${1:100}"],
+        "description": "Frontmatter: Set page completion progress."
+    },
+    "@fm: State": {
+        "prefix": "@fm-state",
+        "body": [
+            "state: ${1|preliminary,unfinished,outdated,renovating,published|}"
+        ],
+        "description": "Frontmatter: Set the document's state."
+    },
+    "@fm: External Links": {
+        "prefix": "@fm-externallinks",
+        "body": [
+            "externalLinks:",
+            "  - text: \"${1:Link Text}\"",
+            "    link: \"${2:https://example.com}\"",
+            "    priority: ${3:0}"
+        ],
+        "description": "Frontmatter: Add external links with text, URL, and priority."
+    },
+
+    "@fm: Back Path": {
+        "prefix": "@fm-backpath",
+        "body": ["backPath: \"${1:../}\""],
+        "description": "Frontmatter: Set a custom back path for the 'Back' button."
+    },
+
+    "@fm: Hero Snippets": {
+        "prefix": "@fm-hero-snippets",
+        "body": ["hero:", "  customSnippet: ${1|true,'custom'|}"],
+        "description": "Frontmatter: Configure custom floating word snippets for the VPHero component. Use 'true' for custom.json or provide a custom filename (without .json)."
+    },
+
+    // ---------- Sidebar Tags Frontmatter ----------
+    "@fm: HTTP Method": {
+        "prefix": "@fm-method",
+        "body": ["method: ${1|GET,POST,PUT,DELETE,PATCH|}"],
+        "description": "Frontmatter: Set HTTP method for sidebar tags."
+    },
+    "@fm: Status": {
+        "prefix": "@fm-status",
+        "body": ["status: ${1|stable,beta,experimental,deprecated,draft|}"],
+        "description": "Frontmatter: Set status for sidebar tags."
+    },
+    "@fm: Version": {
+        "prefix": "@fm-version",
+        "body": ["version: ${1:1.0.0}"],
+        "description": "Frontmatter: Set version for sidebar tags."
+    },
+    "@fm: Difficulty": {
+        "prefix": "@fm-difficulty",
+        "body": [
+            "difficulty: ${1|easy,medium,hard,beginner,intermediate,advanced,expert|}"
+        ],
+        "description": "Frontmatter: Set difficulty level for sidebar tags."
+    },
+    "@fm: Category": {
+        "prefix": "@fm-category",
+        "body": ["category: ${1:tutorial}"],
+        "description": "Frontmatter: Set category for sidebar tags."
+    },
+    "@fm: Featured": {
+        "prefix": "@fm-featured",
+        "body": ["featured: ${1|true,false|}"],
+        "description": "Frontmatter: Mark content as featured for sidebar tags."
+    },
+    "@fm: Priority": {
+        "prefix": "@fm-priority",
+        "body": ["priority: ${1|high,medium,low|}"],
+        "description": "Frontmatter: Set priority for sidebar tags."
+    },
+    "@fm: Language": {
+        "prefix": "@fm-language",
+        "body": [
+            "language: ${1|javascript,typescript,python,java,rust,go,php|}"
+        ],
+        "description": "Frontmatter: Set programming language for sidebar tags."
+    },
+    "@fm: Score": {
+        "prefix": "@fm-score",
+        "body": ["score: ${1:85}"],
+        "description": "Frontmatter: Set score (0-100) for sidebar tags."
+    },
+    "@fm: Multiple Tags": {
+        "prefix": "@fm-multiple-tags",
+        "body": [
+            "method: ${1|GET,POST,PUT,DELETE,PATCH|}",
+            "status: ${2|stable,beta,experimental,deprecated,draft|}",
+            "difficulty: ${3|easy,medium,hard,beginner,intermediate,advanced,expert|}",
+            "category: ${4:tutorial}",
+            "version: ${5:1.0.0}"
+        ],
+        "description": "Frontmatter: Add multiple sidebar tags at once."
+    },
+
+    // ===================================================================
+    // ============== VITEPRESS BUILT-IN MARKDOWN FEATURES ===============
+    // ===================================================================
+
+    "@vp: Info Container": {
+        "prefix": "@vp-info",
+        "body": ["::: info ${1:Info Title}", "${2:Info content}", ":::"],
+        "description": "VitePress info container."
+    },
+    "@vp: Tip Container": {
+        "prefix": "@vp-tip",
+        "body": ["::: tip ${1:Tip Title}", "${2:Tip content}", ":::"],
+        "description": "VitePress tip container."
+    },
+    "@vp: Warning Container": {
+        "prefix": "@vp-warning",
+        "body": [
+            "::: warning ${1:Warning Title}",
+            "${2:Warning content}",
+            ":::"
+        ],
+        "description": "VitePress warning container."
+    },
+    "@vp: Danger Container": {
+        "prefix": "@vp-danger",
+        "body": ["::: danger ${1:Danger Title}", "${2:Danger content}", ":::"],
+        "description": "VitePress danger container."
+    },
+    "@vp: Details Container": {
+        "prefix": "@vp-details",
+        "body": [
+            "::: details ${1:Click to expand}",
+            "${2:Hidden content}",
+            ":::"
+        ],
+        "description": "VitePress details (collapsible) container."
+    },
+    "@vp: Code Group": {
+        "prefix": "@vp-codegroup",
+        "body": [
+            "::: code-group",
+            "",
+            "```${1:js} [${2:JavaScript}]",
+            "${3:// JavaScript code}",
+            "```",
+            "",
+            "```${4:ts} [${5:TypeScript}]",
+            "${6:// TypeScript code}",
+            "```",
+            "",
+            ":::"
+        ],
+        "description": "VitePress code group for tabbed code blocks."
+    },
+    "@vp: Code with Line Numbers": {
+        "prefix": "@vp-codelines",
+        "body": [
+            "```${1:js}:line-numbers",
+            "${2:// Code with line numbers}",
+            "```"
+        ],
+        "description": "Code block with line numbers."
+    },
+    "@vp: Code with Highlighting": {
+        "prefix": "@vp-codehighlight",
+        "body": ["```${1:js}{${2:2-4,6}}", "${3:// Highlighted lines}", "```"],
+        "description": "Code block with specific lines highlighted."
+    },
+
+    // ===================================================================
+    // ================ CUSTOM PLUGINS & COMPONENTS ======================
+    // ===================================================================
+
+    // ---------- Dialog Plugin ----------
+    "@Dialog Definition": {
+        "prefix": "@dialog-def",
+        "body": [
+            "@@@ dialog-def#${1:my-dialog-id} {\"title\": \"${2:My Dialog}\", \"width\": ${3:600}}",
+            "# ${4:Dialog Title (becomes H2)}",
+            "",
+            "${5:Dialog content supports **Markdown**.}",
+            "",
+            "@@@"
+        ],
+        "description": "Dialog definition block. Content is rendered as Markdown."
+    },
+    "@Dialog Trigger": {
+        "prefix": "@dialog-trigger",
+        "body": [":::dialog#${1:my-dialog-id} ${2:Click here}:::"],
+        "description": "Inline trigger for a dialog."
+    },
+    "@Dialog Full": {
+        "prefix": "@dialog-full",
+        "body": [
+            "@@@ dialog-def#${1:my-dialog-id} {\"title\": \"${2:My Dialog}\", \"width\": ${3:600}}",
+            "# ${4:Dialog Title}",
+            "",
+            "${5:Dialog content...}",
+            "",
+            "@@@",
+            "",
+            "::: demo",
+            "Click :::dialog#${1:my-dialog-id} ${6:here}::: to open the dialog.",
+            ":::"
+        ],
+        "description": "Complete dialog definition and trigger inside a demo block."
+    },
+
+    // ---------- Alert Plugin ----------
+    // Legacy v-alert format (kept for compatibility)
+    "@Alert": {
+        "prefix": "@alert",
+        "body": [
+            "::: ${1|v-success,v-info,v-warning,v-error|} ${2:Title}",
+            "${3:Message}",
+            ":::"
+        ],
+        "description": "Generic alert container (legacy format)."
+    },
+    "@Alert Success": {
+        "prefix": "@alert-success",
+        "body": ["::: v-success ${1:Success}", "${2:Success message}", ":::"],
+        "description": "Success alert (legacy format)."
+    },
+    "@Alert Info": {
+        "prefix": "@alert-info",
+        "body": ["::: v-info ${1:Information}", "${2:Info message}", ":::"],
+        "description": "Info alert (legacy format)."
+    },
+    "@Alert Warning": {
+        "prefix": "@alert-warning",
+        "body": ["::: v-warning ${1:Warning}", "${2:Warning message}", ":::"],
+        "description": "Warning alert (legacy format)."
+    },
+    "@Alert Error": {
+        "prefix": "@alert-error",
+        "body": ["::: v-error ${1:Error}", "${2:Error message}", ":::"],
+        "description": "Error alert (legacy format)."
+    },
+
+    // ---------- CustomAlert Plugin (New JSON-based format) ----------
+    "@Custom Alert": {
+        "prefix": "@custom-alert",
+        "body": [
+            "::: alert {\"type\": \"${1|success,info,warning,error|}\", \"title\": \"${2:Alert Title}\"}",
+            "${3:Alert content}",
+            ":::"
+        ],
+        "description": "Custom alert with JSON configuration."
+    },
+    "@Custom Alert Success": {
+        "prefix": "@custom-alert-success",
+        "body": [
+            "::: alert {\"type\": \"success\", \"title\": \"${1:Success}\"}",
+            "${2:Success message}",
+            ":::"
+        ],
+        "description": "Custom success alert."
+    },
+    "@Custom Alert Info": {
+        "prefix": "@custom-alert-info",
+        "body": [
+            "::: alert {\"type\": \"info\", \"title\": \"${1:Information}\"}",
+            "${2:Info message}",
+            ":::"
+        ],
+        "description": "Custom info alert."
+    },
+    "@Custom Alert Warning": {
+        "prefix": "@custom-alert-warning",
+        "body": [
+            "::: alert {\"type\": \"warning\", \"title\": \"${1:Warning}\"}",
+            "${2:Warning message}",
+            ":::"
+        ],
+        "description": "Custom warning alert."
+    },
+    "@Custom Alert Error": {
+        "prefix": "@custom-alert-error",
+        "body": [
+            "::: alert {\"type\": \"error\", \"title\": \"${1:Error}\"}",
+            "${2:Error message}",
+            ":::"
+        ],
+        "description": "Custom error alert."
+    },
+    "@Custom Alert Full": {
+        "prefix": "@custom-alert-full",
+        "body": [
+            "::: alert {\"type\": \"${1|success,info,warning,error|}\", \"title\": \"${2:Alert Title}\", \"variant\": \"${3|flat,elevated,tonal,outlined,text,plain|}\", \"density\": \"${4|default,comfortable,compact|}\", \"border\": \"${5|start,end,top,bottom,true,false|}\", \"color\": \"${6:purple}\", \"icon\": \"${7:mdi-star}\", \"text\": \"${8:Text property content}\"}",
+            "${9:Slot content}",
+            ":::"
+        ],
+        "description": "Full-featured custom alert with all configuration options."
+    },
+
+    // ---------- Markmap Plugin ----------
+    "@Markmap Basic": {
+        "prefix": "@markmap",
+        "body": [
+            "```markmap",
+            "# ${1:Main Topic}",
+            "",
+            "## ${2:Subtopic 1}",
+            "- ${3:Item 1}",
+            "- ${4:Item 2}",
+            "",
+            "## ${5:Subtopic 2}",
+            "- ${6:Item 3}",
+            "- ${7:Item 4}",
+            "```"
+        ],
+        "description": "Basic markmap mindmap diagram."
+    },
+    "@Markmap Full": {
+        "prefix": "@markmap-full",
+        "body": [
+            "```markmap",
+            "# ${1:Main Topic}",
+            "",
+            "## ${2:Section 1}",
+            "### ${3:Subsection 1.1}",
+            "- ${4:Item 1}",
+            "- ${5:Item 2}",
+            "  - [${6:Link Text}](${7:https://example.com})",
+            "",
+            "### ${8:Subsection 1.2}",
+            "- ${9:Item 3}",
+            "- ${10:Item 4}",
+            "",
+            "## ${11:Section 2}",
+            "- ${12:Item 5}",
+            "- ${13:Item 6}",
+            "```"
+        ],
+        "description": "Full-featured markmap with hierarchy and links."
+    },
+
+    // ---------- Other Plugins & Components ----------
+    "@Carousel": {
+        "prefix": "@carousel",
+        "body": [
+            "::: carousels#{\"cycle\": ${1|true,false|}, \"interval\": ${2:2800}}",
+            "@tab",
+            "![${4:Image 1}](${5:/path/to/image1.png})",
+            "@tab",
+            "![${6:Image 2}](${7:/path/to/image2.png})",
+            ":::"
+        ],
+        "description": "Image carousel plugin."
+    },
+    "@File Tree": {
+        "prefix": "@file-tree",
+        "body": [
+            "<LiteTree>",
+            "${1:Root Folder}",
+            "    ${2:Subfolder}",
+            "        ${3:file.txt}      //+         ${4:Add marker}",
+            "        ${5:file2.txt}     //x         ${6:Error marker}",
+            "</LiteTree>"
+        ],
+        "description": "Basic file tree structure component."
+    },
+    "@File Tree Full": {
+        "prefix": "@file-tree-full",
+        "body": [
+            "<LiteTree>",
+            "// Define style variables",
+            "#${1:important}=color:red;font-weight:bold;background:#ffe6e6;padding:2px 6px;border-radius:3px;",
+            "#${2:success}=color:green;font-weight:bold;background:#e6ffe6;padding:2px 6px;border-radius:3px;",
+            ".${3:folder}=color:#1976d2;font-weight:500;",
+            "// Define icon variables",
+            "${4:folder}=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9ImN1cnJlbnRDb2xvciIgZD0iTTEwIDRIOGEyIDIgMCAwIDAtMiAydjEyYTIgMiAwIDAgMCAyIDJoOGEyIDIgMCAwIDAgMi0yVjhhMiAyIDAgMCAwLTItMmgtM2wtMi0yWiIvPjwvc3ZnPg==",
+            "---",
+            "[${4:folder}] {.${3:folder}}${5:Project Name}",
+            "    ${6:Subfolder}     // {#${1:important}}${7:Important note}",
+            "        ${8:file.txt}  // {#${2:success}}${9:Completed}",
+            "</LiteTree>"
+        ],
+        "description": "Full-featured file tree with variables and styling."
+    },
+
+    // ---------- LiteTree Variables ----------
+    "@LiteTree Style Var": {
+        "prefix": "@lite-style-var",
+        "body": [
+            "#${1:styleName}=${2:color:red;font-weight:bold;background:#ffe6e6;padding:2px 6px;border-radius:3px;}"
+        ],
+        "description": "LiteTree style variable definition."
+    },
+    "@LiteTree Class Var": {
+        "prefix": "@lite-class-var",
+        "body": [".${1:className}=${2:color:#1976d2;font-weight:500;}"],
+        "description": "LiteTree class variable definition."
+    },
+    "@LiteTree Icon Var": {
+        "prefix": "@lite-icon-var",
+        "body": ["${1:iconName}=data:image/svg+xml;base64,${2:iconBase64Data}"],
+        "description": "LiteTree icon variable definition."
+    },
+
+    // ---------- Common Icon Variables ----------
+    "@Icon: Folder": {
+        "prefix": "@icon-folder",
+        "body": [
+            "folder=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9ImN1cnJlbnRDb2xvciIgZD0iTTEwIDRIOGEyIDIgMCAwIDAtMiAydjEyYTIgMiAwIDAgMCAyIDJoOGEyIDIgMCAwIDAgMi0yVjhhMiAyIDAgMCAwLTItMmgtM2wtMi0yWiIvPjwvc3ZnPg=="
+        ],
+        "description": "Folder icon variable for LiteTree."
+    },
+    "@Icon: File": {
+        "prefix": "@icon-file",
+        "body": [
+            "file=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9ImN1cnJlbnRDb2xvciIgZD0iTTE0IDJINmEyIDIgMCAwIDAtMiAydjE2YTIgMiAwIDAgMCAyIDJoMTJhMiAyIDAgMCAwIDItMlY4bC02LTZtNCA5VjlsNCA0aC00WiIvPjwvc3ZnPg=="
+        ],
+        "description": "File icon variable for LiteTree."
+    },
+    "@Icon: JavaScript": {
+        "prefix": "@icon-js",
+        "body": [
+            "js=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9IiNmN2RmMWUiIGQ9Ik0zIDNoMTh2MThIM1ptMTYuNTI1IDE0LjVjLS4zLS4zNTQtLjc5NS0uNjI5LTEuNzE3LS42MjljLS44ODEgMC0xLjQzOS4zMTgtMS40MzkuNzE4YzAgLjM5Ni4zNzMuNjM3IDEuMTU2Ljk2N2MxLjMzMi41ODYgMi4yODEgMS4wOTMgMi4yODEgMi4zOGMwIDEuMzItMS4yMDMgMi4xNDMtMi45NzQgMi4xNDNjLTEuMjEzIDAtMi4yNzEuNDYyLTIuOTUxLjA3NGwuODc1LTEuMjczYy40MzMuMzg5IDEuMDY0LjcyNCAxLjY2NC43MjRjLjcwNiAwIDEuMDY0LS4zMzEgMS4wNjQtLjczM2MwLS40NDktLjM3Ni0uNzI0LTEuMjQ1LTEuMDMzYy0xLjMyNS0uNDg4LTIuMTMyLTEuMjUtMi4xMzItMi4zNjNjMC0xLjM5NCAxLjAyOS0yLjE0MyAyLjg1Ni0yLjE0M2MxLjA2NCAwIDEuNzQ1LjMyOCAyLjM3Ny44NTlsLS44MzEgMS4yNDFabS01Ljg0NS0uMzM1Yy4zNjYuODE1LjM2NiAxLjU3Ny4zNjYgMi40N3YzLjkwNmgtMS44NzZWMTkuNmMwLTEuNTI3LS4wNi0yLjE4LS41NS0yLjQ4Yy0uNDEtLjI4OC0xLjA3Ni0uMjc0LTEuNjE4LS4xMDdjLS4zNzguMTE3LS43MTMuMzM1LS43MTMgMS4wNzR2NS4wNTZINi40MjdWMi44MmExLjg3NiAyLjExM2MuNzQ3LS4zOTkgMS41NzctLjczOCAyLjY0NS0uNzM4Yy43NjQgMCAxLjU3Ny4yNTMgMi4wNjkuNzg3Yy40OTguNTUyLjYyNiAxLjE1Ny43MjMgMS45OTFaIi8+PC9zdmc+="
+        ],
+        "description": "JavaScript icon variable for LiteTree."
+    },
+    "@Icon: TypeScript": {
+        "prefix": "@icon-ts",
+        "body": [
+            "ts=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMTUgMTUiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMxNzhDNiIgZD0iTTEyLjUgOHYtLjE2N2MwLS43MzYtLjU5Ny0xLjMzMy0xLjMzMy0xLjMzM0gxMGExLjUgMS41IDAgMSAwIDAgM2gxYTEuNSAxLjUgMCAwIDEgMCAzaC0xQTEuNSAxLjUgMCAwIDEgOC41IDExTTggNi41SDNtMi41IDBWMTNNMS41LjVoMTN2MTRIOS41eiIvPjwvc3ZnPg=="
+        ],
+        "description": "TypeScript icon variable for LiteTree."
+    },
+    "@Icon: Vue": {
+        "prefix": "@icon-vue",
+        "body": [
+            "vue=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9IiM0Y2FmNTAiIGQ9Ik0yIDIwaDIwTDEyIDR6Ii8+PC9zdmc+"
+        ],
+        "description": "Vue.js icon variable for LiteTree."
+    },
+
+    // ---------- Pre-defined Style Sets ----------
+    "@LiteTree Status Styles": {
+        "prefix": "@lite-status-styles",
+        "body": [
+            "// Status styles",
+            "#success=color:green;font-weight:bold;background:#e6ffe6;padding:2px 6px;border-radius:3px;",
+            "#warning=color:orange;background:#fff3e0;padding:2px 6px;border-radius:3px;",
+            "#error=color:red;font-weight:bold;background:#ffe6e6;padding:2px 6px;border-radius:3px;",
+            "#info=color:blue;background:#e3f2fd;padding:2px 6px;border-radius:3px;"
+        ],
+        "description": "Pre-defined status styles for LiteTree."
+    },
+    "@LiteTree File Type Styles": {
+        "prefix": "@lite-filetype-styles",
+        "body": [
+            "// File type styles",
+            ".folder=color:#1976d2;font-weight:500;",
+            ".file=color:#666;",
+            ".important=font-weight:bold;color:#d32f2f;",
+            ".new=color:white;background:#4caf50;padding:1px 4px;border-radius:2px;font-size:12px;",
+            ".deprecated=color:white;background:#f44336;padding:1px 4px;border-radius:2px;font-size:12px;"
+        ],
+        "description": "Pre-defined file type styles for LiteTree."
+    },
+    "@Link Card": {
+        "prefix": "@linkcard",
+        "body": [
+            "<Linkcard url=\"${1:https://example.com}\" title=\"${2:Title}\" description=\"${3:Description}\" logo=\"${4:/logo.png}\"/>"
+        ],
+        "description": "Link card component."
+    },
+
+    // ===================================================================
+    // ===================== MARKDOWN UTILITIES ==========================
+    // ===================================================================
+
+    "@H1": {
+        "prefix": "@h1",
+        "body": ["# ${1:Title}"],
+        "description": "H1 Title"
+    },
+    "@H2": {
+        "prefix": "@h2",
+        "body": ["## ${1:Title}"],
+        "description": "H2 Title"
+    },
+    "@H3": {
+        "prefix": "@h3",
+        "body": ["### ${1:Title}"],
+        "description": "H3 Title"
+    },
+    "@H4": {
+        "prefix": "@h4",
+        "body": ["#### ${1:Title}"],
+        "description": "H4 Title"
+    },
+
+    "@Table": {
+        "prefix": "@table",
+        "body": [
+            "| ${1:Header 1} | ${2:Header 2} |",
+            "| :--- | :--- |",
+            "| ${3:Cell 1}  | ${4:Cell 2}  |",
+            "| ${5:Cell 3}  | ${6:Cell 4}  |"
+        ],
+        "description": "Insert a Markdown table."
+    },
+
+    "@Table of Contents": {
+        "prefix": "@toc",
+        "body": [
+            "## Table of Contents",
+            "",
+            "- [${1:Section 1}](#${2:section-1})",
+            "- [${3:Section 2}](#${4:section-2})"
+        ],
+        "description": "Insert a Table of Contents."
+    },
+
+    "@Demo Block": {
+        "prefix": "@demo",
+        "body": ["::: demo ${1:Demo Title}", "${2:Demo content}", ":::"],
+        "description": "Demo block container for showcasing examples."
+    },
+
+    "@Spoiler": {
+        "prefix": "@spoiler",
+        "body": ["!!${1:hidden content}!!"],
+        "description": "Hidden/spoiler text."
+    },
+    "@Highlight": {
+        "prefix": "@mark",
+        "body": ["==${1:highlighted text}=="],
+        "description": "Highlighted (marked) text."
+    },
+    "@Insert": {
+        "prefix": "@insert",
+        "body": ["++${1:inserted text}++"],
+        "description": "Inserted text."
+    },
+    "@Subscript": {
+        "prefix": "@sub",
+        "body": ["${1:text}~${2:subscript}~"],
+        "description": "Subscript text."
+    },
+    "@Superscript": {
+        "prefix": "@sup",
+        "body": ["${1:text}^${2:superscript}^"],
+        "description": "Superscript text."
+    },
+
+    // ===================================================================
+    // =================== LLM CONTENT UTILITIES =========================
+    // ===================================================================
+
+    "@LLM Only Block": {
+        "prefix": "@llm-only",
+        "body": [
+            "<llm-only>",
+            "${1:This content is visible only to LLMs.}",
+            "</llm-only>"
+        ],
+        "description": "Block content visible only to LLMs."
+    },
+    "@LLM Exclude Block": {
+        "prefix": "@llm-exclude",
+        "body": [
+            "<llm-exclude>",
+            "${1:This content is visible only to humans.}",
+            "</llm-exclude>"
+        ],
+        "description": "Block content invisible to LLMs (excluded from LLM context)."
+    },
+    "@LLM Instructions": {
+        "prefix": "@llm-instructions",
+        "body": [
+            "<llm-only>",
+            "## Instructions for AI Assistants",
+            "- **ALWAYS:** ${1:Do this...}",
+            "- **NEVER:** ${2:Do that...}",
+            "- **WHEN ${3:user asks for X}:** ${4:Respond with Y.}",
+            "</llm-only>"
+        ],
+        "description": "AI assistant instructions block."
+    },
+    "@LLM Context": {
+        "prefix": "@llm-context",
+        "body": [
+            "<llm-only>",
+            "**Context for AI:** ${1:This page covers advanced topics. Users may need simplified explanations.}",
+            "</llm-only>"
+        ],
+        "description": "Provide contextual information for LLMs."
+    },
+
+    // ===================================================================
+    // ===================== MAGIC MOVE COMPONENTS =======================
+    // ===================================================================
+
+    "@Magic Move Full": {
+        "prefix": "@magic-move-full",
+        "body": [
+            ":::magic-move",
+            "```${1:js} [${2:app.js}]",
+            "${3:// Step 1: Basic setup}",
+            "console.log('Hello World');",
+            "```",
+            "```${1:js} [${2:app.js}]",
+            "${4:// Step 2: Add functionality}",
+            "function greet(name) {",
+            "  return `Hello, \\${name}!`;",
+            "}",
+            "console.log(greet('Vue'));",
+            "```",
+            "```${5:ts} [${6:app.ts}]",
+            "${7:// Step 3: Add TypeScript}",
+            "function greet(name: string): string {",
+            "  return `Hello, \\${name}!`;",
+            "}",
+            "console.log(greet('TypeScript'));",
+            "```",
+            ":::"
+        ],
+        "description": "Full-featured Magic Move with multiple steps and language transitions."
+    },
+
+    // ===================================================================
+    // =================== COMPONENT SNIPPETS ===========================
+    // ===================================================================
+
+    // ---------- Mermaid Diagrams ----------
+    "@Mermaid: Flowchart": {
+        "prefix": "@mermaid-flowchart",
+        "body": [
+            "```mermaid",
+            "flowchart TD",
+            "    A[${1:Start}] --> B{${2:Decision}}",
+            "    B -->|${3:Yes}| C[${4:Process 1}]",
+            "    B -->|${5:No}| D[${6:Process 2}]",
+            "    C --> E[${7:End}]",
+            "    D --> E",
+            "```"
+        ],
+        "description": "Mermaid flowchart diagram."
+    },
+
+
+
+    // ---------- Video Components ----------
+    "@Bilibili Video": {
+        "prefix": "@bilibili",
+        "body": ["<BilibiliVideo bvid=\"${1:BV1rC4y1C7z2}\" />"],
+        "description": "Bilibili video component."
+    },
+    "@YouTube Video": {
+        "prefix": "@youtube",
+        "body": ["<YoutubeVideo videoId=\"${1:IL7J9ueYRYc}\" />"],
+        "description": "YouTube video component."
+    },
+
+    // ---------- Damage Chart Component ----------
+    "@Damage Chart Static": {
+        "prefix": "@damage-chart-static",
+        "body": [
+            "<DamageChart",
+            "  mode=\"static\"",
+            "  :incomingDamage=\"${1:20}\"",
+            "  :armorToughness=\"${2:5}\"",
+            "  :minDamage=\"${3:4}\"",
+            "  :maxDamage=\"${4:20}\"",
+            "  :maxArmorPoints=\"${5:20}\"",
+            "  :isJavaEdition=\"${6|true,false|}\"",
+            "/>"
+        ],
+        "description": "Static Minecraft damage chart component."
+    },
+    "@Damage Chart Interactive": {
+        "prefix": "@damage-chart-interactive",
+        "body": [
+            "<DamageChart",
+            "  mode=\"interactive\"",
+            "  :incomingDamage=\"${1:201}\"",
+            "  :armorToughness=\"${2:150}\"",
+            "  :minDamage=\"${3:0}\"",
+            "  :maxDamage=\"${4:200}\"",
+            "  :maxArmorPoints=\"${5:50}\"",
+            "  :isJavaEdition=\"${6|true,false|}\"",
+            "/>"
+        ],
+        "description": "Interactive Minecraft damage chart component."
+    },
+    "@Damage Chart Full": {
+        "prefix": "@damage-chart-full",
+        "body": [
+            "<DamageChart",
+            "  mode=\"${1|static,interactive|}\"",
+            "  :incomingDamage=\"${2:50}\"",
+            "  :armorToughness=\"${3:0}\"",
+            "  :minDamage=\"${4:0}\"",
+            "  :maxDamage=\"${5:60}\"",
+            "  :maxArmorPoints=\"${6:100}\"",
+            "  :isJavaEdition=\"${7|true,false|}\"",
+            "  :translations=\"${8:{}}\"",
+            "/>"
+        ],
+        "description": "Full-featured Minecraft damage chart component."
+    },
+
+    // ---------- PDF Viewer Component ----------
+    "@PDF Viewer": {
+        "prefix": "@pdf-viewer",
+        "body": ["<PdfViewer pdfSource=\"${1:/pdf/modding/java/test.pdf}\"/>"],
+        "description": "PDF viewer component."
+    },
+
+    // ---------- Advanced Carousel Configurations ----------
+    "@Carousel Full": {
+        "prefix": "@carousel-full",
+        "body": [
+            "::: carousels#{\"cycle\": ${1|true,false|}, \"interval\": ${2:3000}, \"arrows\": ${3|true,false|}, \"undelimiters\": ${4|true,false|}}",
+            "@tab",
+            "![${5:Image 1}](${6:/path/to/image1.png})",
+            "@tab",
+            "![${7:Image 2}](${8:/path/to/image2.png})",
+            "@tab",
+            "![${9:Image 3}](${10:/path/to/image3.png})",
+            ":::"
+        ],
+        "description": "Full-featured image carousel with all configuration options."
+    },
+
+    // ---------- Iframe Component ----------
+    "@Iframe": {
+        "prefix": "@iframe",
+        "body": [
+            ":::iframes#{\"src\": \"${1:https://example.com}\", \"height\": \"${2:400px}\"}",
+            ":::"
+        ],
+        "description": "Embedded iframe component."
+    },
+
+    // ---------- Stepper Component ----------
+    "@Stepper": {
+        "prefix": "@stepper",
+        "body": [
+            "::: stepper",
+            "@tab ${1:Step 1}",
+            "${2:First step content}",
+            "@tab ${3:Step 2}",
+            "${4:Second step content}",
+            "@tab ${5:Step 3}",
+            "${6:Third step content}",
+            ":::"
+        ],
+        "description": "Step-by-step guide component."
+    },
+
+    // ---------- Steps Component ----------
+    "@Steps": {
+        "prefix": "@steps",
+        "body": [
+            ":::steps",
+            "1. ${1:First item}",
+            "    1. ${2:Sub-item 1}",
+            "        1. ${3:Sub-sub-item 1}",
+            "        2. ${4:Sub-sub-item 2}",
+            "        3. ${5:Sub-sub-item 3}",
+            "    2. ${6:Sub-item 2}",
+            "    3. ${7:Sub-item 3}",
+            "2. ${8:Second item}",
+            "3. ${9:Third item}",
+            ":::"
+        ],
+        "description": "Numbered steps component with nested hierarchy."
+    },
+
+    // ---------- Linkcard Component ----------
+    "@Linkcard": {
+        "prefix": "@linkcard",
+        "body": [
+            "<Linkcard url=\"${1:https://example.com}\" title=\"${2:Title}\" description=\"${3:Description}\" logo=\"${4:/logo.png}\"/>"
+        ],
+        "description": "Link card component."
+    },
+
+    // ---------- Contributors Component ----------
+    "@Contributors": {
+        "prefix": "@contributors",
+        "body": [
+            "<Contributors",
+            "  owner=\"${1:PickAID}\"",
+            "  repo=\"${2:CrychicDoc}\"",
+            "  :maxCount=\"${3:50}\"",
+            "  :showContributions=\"${4|true,false|}\"",
+            "  :enableCache=\"${5|true,false|}\"",
+            "/>"
+        ],
+        "description": "Contributors component for GitHub repositories."
+    },
+
+    // ---------- Responsible Editor Component ----------
+    "@Responsible Editor": {
+        "prefix": "@responsible-editor",
+        "body": ["editor: ${1:PickAID}"],
+        "description": "Responsible editor component (uses frontmatter editor field)."
+    },
+
+    // ---------- Comment Component ----------
+    "@Comment Section": {
+        "prefix": "@comment",
+        "body": ["<comment />"],
+        "description": "Comment section component (Giscus integration)."
+    },
+
+    // ---------- Commits Counter Component ----------
+    "@Commits Counter": {
+        "prefix": "@commits-counter",
+        "body": [
+            "<commitsCounter",
+            "  username=\"${1:PickAID}\"",
+            "  repo-name=\"${2:CrychicDoc}\"",
+            "  :days-to-fetch=\"${3:30}\"",
+            "/>"
+        ],
+        "description": "GitHub commits counter component."
+    },
+
+    // ---------- Demo Container Combinations ----------
+
+    "@fm: Tags (Batch)": {
+        "prefix": "@fm-tags-batch",
+        "body": ["tags:", "  - ${1:tag1}", "  - ${2:tag2}", "  - ${3:tag3}"],
+        "description": "Frontmatter: 批量插入多个标签。"
+    },
+
+    // ---------- Chat Components (YAML Syntax) ----------
+    // ---------- Chat Components ----------
+    "@Chat Panel": {
+        "prefix": "@chat-panel",
+        "body": [
+            ":::: chat title=\"${1:Chat Title}\" ${2|max-height=\"300px\",transparent|}",
+            "::: message nickname=\"${3:User1}\" location=\"left\"",
+            "${4:Hello!}",
+            ":::",
+            "",
+            "::: message nickname=\"${5:User2}\" location=\"right\"",
+            "${6:Hi there! How can I help you?}",
+            ":::",
+            "$0",
+            "::::"
+        ],
+        "description": "Creates a chat panel with a title and optional attributes."
+    },
+    "@Chat Message": {
+        "prefix": "@chat-message",
+        "body": [
+            "::: message nickname=\"${1:User}\" location=\"${2|left,right|}\"",
+            "${0:Message content}",
+            ":::"
+        ],
+        "description": "Adds a basic chat message with nickname and location."
+    },
+
+    // ---------- VPHero Component ----------
+    "@Hero": {
+        "prefix": "@hero",
+        "body": [
+            "---",
+            "layout: home",
+            "hero:",
+            "  name: \"${1:Project Name}\"",
+            "  text: \"${2:Project Description}\"",
+            "  tagline: \"${3:Your project's tagline here}\"",
+            "  image:",
+            "    src: \"${4:/logo.png}\"",
+            "    alt: \"${5:Project Logo}\"",
+            "  customSnippet: ${6|true,'custom'|}",
+            "  actions:",
+            "    - theme: brand",
+            "      text: \"${7:Get Started}\"",
+            "      link: \"${8:/guide/}\"",
+            "---",
+            "",
+            "$0"
+        ],
+        "description": "Complete hero page layout with image and snippets support."
+    },
+
+    "@Hero Action": {
+        "prefix": "@hero-action",
+        "body": [
+            "- theme: ${1|brand,alt|}",
+            "  text: \"${2:Button Text}\"",
+            "  link: \"${3:/guide/}\""
+        ],
+        "description": "Add hero action button."
+    },
+
+    "@Hero Config": {
+        "prefix": "@hero-config",
+        "body": [
+            "hero:",
+            "  name: \"${1:Project Name}\"",
+            "  text: \"${2:Project Description}\"",
+            "  tagline: \"${3:Your project's tagline here}\"",
+            "  image:",
+            "    src: \"${4:/logo.png}\"",
+            "    alt: \"${5:Project Logo}\"",
+            "  customSnippet: ${6|true,'custom'|}",
+            "  actions:",
+            "    - theme: brand",
+            "      text: \"${7:Get Started}\"",
+            "      link: \"${8:/guide/}\""
+        ],
+        "description": "Hero configuration block for existing pages."
+    },
+
+    "Bills Component": {
+        "prefix": "@bills",
+        "body": ["<Bills />"],
+        "description": "Inserts a basic Bills component that uses the default data source."
+    },
+
+    "Bills Component with Data (Optional)": {
+        "prefix": "@bills-component-with-config",
+        "body": [
+            "<Bills :bills='[",
+            "  {",
+            "    \"date\": \"${1:YYYY-MM-DD}\",",
+            "    \"exchanged-amount\": ${2:0.00},",
+            "    \"target\": \"${3:Target/Source}\",",
+            "    \"operator\": \"${4:Operator}\",",
+            "    \"description\": \"${5:Description}\",",
+            "    \"type\": \"${6|income,outlay|}\"",
+            "  }${0}",
+            "]' />"
+        ],
+        "description": "Bills component with inline data (required fields only)."
+    },
+
+    "Bills Component with Data (Full)": {
+        "prefix": "@bills-component-with-config-full",
+        "body": [
+            "<Bills :bills='[",
+            "  {",
+            "    \"date\": \"${1:YYYY-MM-DD}\",",
+            "    \"exchanged-amount\": ${2:0.00},",
+            "    \"target\": \"${3:Target/Source}\",",
+            "    \"operator\": \"${4:Operator}\",",
+            "    \"description\": \"${5:Description}\",",
+            "    \"type\": \"${6|income,outlay|}\",",
+            "    \"original-amount\": ${7:0.00},",
+            "    \"original-unit\": \"${8:USD}\",",
+            "    \"target-unit\": \"${9:CNY}\"",
+            "  }${0}",
+            "]' />"
+        ],
+        "description": "Bills component with inline data including all optional currency conversion fields."
+    },
+
+    "Bill Data Template (Optional)": {
+        "prefix": "@bill-data",
+        "body": [
+            "[",
+            "  {",
+            "    \"date\": \"${1:YYYY-MM-DD}\",",
+            "    \"exchanged-amount\": ${2:0.00},",
+            "    \"target\": \"${3:Target/Source}\",",
+            "    \"operator\": \"${4:Operator}\",",
+            "    \"description\": \"${5:Description}\",",
+            "    \"type\": \"${6|income,outlay|}\"",
+            "  }${7:,}",
+            "]"
+        ],
+        "description": "Template for bill data array with required fields only."
+    },
+
+    "Bill Data Template (Full)": {
+        "prefix": "@bill-data-full",
+        "body": [
+            "[",
+            "  {",
+            "    \"date\": \"${1:YYYY-MM-DD}\",",
+            "    \"exchanged-amount\": ${2:0.00},",
+            "    \"target\": \"${3:Target/Source}\",",
+            "    \"operator\": \"${4:Operator}\",",
+            "    \"description\": \"${5:Description}\",",
+            "    \"type\": \"${6|income,outlay|}\",",
+            "    \"original-amount\": ${7:0.00},",
+            "    \"original-unit\": \"${8:USD}\",",
+            "    \"target-unit\": \"${9:CNY}\"",
+            "  }${10:,}",
+            "  ${0:// Add more bill objects as needed}",
+            "]"
+        ],
+        "description": "Template for bill data array with all fields including optional currency conversion."
+    },
+
+    "Bill Object (Optional)": {
+        "prefix": "@bill-object",
+        "body": [
+            "{",
+            "  \"date\": \"${1:YYYY-MM-DD}\",",
+            "  \"exchanged-amount\": ${2:0.00},",
+            "  \"target\": \"${3:Target/Source}\",",
+            "  \"operator\": \"${4:Operator}\",",
+            "  \"description\": \"${5:Description}\",",
+            "  \"type\": \"${6|income,outlay|}\"",
+            "}${0}"
+        ],
+        "description": "Template for a single bill object with required fields only."
+    },
+
+    "Bill Object (Full)": {
+        "prefix": "@bill-object-full",
+        "body": [
+            "{",
+            "  \"date\": \"${1:YYYY-MM-DD}\",",
+            "  \"exchanged-amount\": ${2:0.00},",
+            "  \"target\": \"${3:Target/Source}\",",
+            "  \"operator\": \"${4:Operator}\",",
+            "  \"description\": \"${5:Description}\",",
+            "  \"type\": \"${6|income,outlay|}\",",
+            "  \"original-amount\": ${7:0.00},",
+            "  \"original-unit\": \"${8:USD}\",",
+            "  \"target-unit\": \"${9:CNY}\"",
+            "}${0}"
+        ],
+        "description": "Template for a single bill object with all fields including optional currency conversion."
+    },
+
+    // ===================================================================
+    // ===================== VUE CHARTS PLUGIN ===========================
+    // ===================================================================
+
+    // ---------- Basic Chart Types ----------
+    "@Chart Line": {
+        "prefix": "@chart-line",
+        "body": [
+            "::: chart line {\"title\": \"${1:Line Chart}\", \"height\": \"${2:400px}\"}",
+            "${3:2023-01}: ${4:120}",
+            "${5:2023-02}: ${6:132}",
+            "${7:2023-03}: ${8:101}",
+            ":::"
+        ],
+        "description": "Basic line chart with time series data."
+    },
+
+    "@Chart Line Multi-Series": {
+        "prefix": "@chart-line-multi",
+        "body": [
+            "::: chart line {\"title\": \"${1:Multi-Series Line Chart}\", \"legend\": true}",
+            "${2:Series 1} | ${3:Jan}: ${4:120}, ${5:Feb}: ${6:132}, ${7:Mar}: ${8:101}",
+            "${9:Series 2} | ${3:Jan}: ${10:220}, ${5:Feb}: ${11:182}, ${7:Mar}: ${12:191}",
+            ":::"
+        ],
+        "description": "Multi-series line chart with multiple data sets."
+    },
+
+    "@Chart Bar": {
+        "prefix": "@chart-bar",
+        "body": [
+            "::: chart bar {\"title\": \"${1:Bar Chart}\", \"height\": \"${2:400px}\"}",
+            "${3:Category A}: ${4:120}",
+            "${5:Category B}: ${6:132}",
+            "${7:Category C}: ${8:101}",
+            ":::"
+        ],
+        "description": "Basic bar chart."
+    },
+
+    "@Chart Pie": {
+        "prefix": "@chart-pie",
+        "body": [
+            "::: chart pie {\"title\": \"${1:Pie Chart}\"}",
+            "${2:Apple}: ${3:45}",
+            "${4:Banana}: ${5:25}",
+            "${6:Orange}: ${7:30}",
+            ":::"
+        ],
+        "description": "Basic pie chart."
+    },
+
+    "@Chart Area": {
+        "prefix": "@chart-area",
+        "body": [
+            "::: chart area {\"title\": \"${1:Area Chart}\", \"smooth\": true}",
+            "${2:2023-01}: ${3:120}",
+            "${4:2023-02}: ${5:132}",
+            "${6:2023-03}: ${7:101}",
+            ":::"
+        ],
+        "description": "Area chart with smooth curves."
+    },
+
+    "@Chart Scatter": {
+        "prefix": "@chart-scatter",
+        "body": [
+            "::: chart scatter {\"title\": \"${1:Scatter Plot}\"}",
+            "${2:10}, ${3:20}",
+            "${4:15}, ${5:25}",
+            "${6:20}, ${7:30}",
+            ":::"
+        ],
+        "description": "Scatter plot with x,y coordinates."
+    },
+
+    "@Chart Radar": {
+        "prefix": "@chart-radar",
+        "body": [
+            "::: chart radar {\"title\": \"${1:Radar Chart}\"}",
+            "${2:Product A} | ${3:Speed}: ${4:80}, ${5:Quality}: ${6:90}, ${7:Price}: ${8:70}",
+            "${9:Product B} | ${3:Speed}: ${10:70}, ${5:Quality}: ${11:80}, ${7:Price}: ${12:90}",
+            ":::"
+        ],
+        "description": "Radar chart for multi-dimensional data comparison."
+    },
+
+    "@Chart Gauge": {
+        "prefix": "@chart-gauge",
+        "body": [
+            "::: chart gauge {\"title\": \"${1:Gauge Chart}\"}",
+            "${2:75}",
+            ":::"
+        ],
+        "description": "Gauge chart for single value display."
+    },
+
+    "@Chart Candlestick": {
+        "prefix": "@chart-candlestick",
+        "body": [
+            "::: chart candlestick {\"title\": \"${1:Stock Chart}\"}",
+            "${2:2023-01-01}: ${3:20}, ${4:25}, ${5:18}, ${6:24}",
+            "${7:2023-01-02}: ${8:24}, ${9:28}, ${10:22}, ${11:27}",
+            ":::"
+        ],
+        "description": "Candlestick chart for financial data."
+    },
+
+    // ---------- Advanced Chart Types ----------
+    "@Chart Doughnut": {
+        "prefix": "@chart-doughnut",
+        "body": [
+            "::: chart doughnut {\"title\": \"${1:Doughnut Chart}\"}",
+            "${2:Desktop}: ${3:45}",
+            "${4:Mobile}: ${5:35}",
+            "${6:Tablet}: ${7:20}",
+            ":::"
+        ],
+        "description": "Doughnut chart (ring-shaped pie chart)."
+    },
+
+    "@Chart Funnel": {
+        "prefix": "@chart-funnel",
+        "body": [
+            "::: chart funnel {\"title\": \"${1:Sales Funnel}\"}",
+            "${2:Leads}: ${3:1000}",
+            "${4:Prospects}: ${5:800}",
+            "${6:Customers}: ${7:300}",
+            ":::"
+        ],
+        "description": "Funnel chart for conversion tracking."
+    },
+
+    "@Chart Heatmap": {
+        "prefix": "@chart-heatmap",
+        "body": [
+            "::: chart heatmap {\"title\": \"${1:Heatmap}\"}",
+            "${2:Mon}, ${3:12AM}: ${4:5}",
+            "${2:Mon}, ${5:1AM}: ${6:3}",
+            "${7:Tue}, ${3:12AM}: ${8:8}",
+            "${7:Tue}, ${5:1AM}: ${9:4}",
+            ":::"
+        ],
+        "description": "Heatmap for time-series or matrix data."
+    },
+
+    "@Chart Sankey": {
+        "prefix": "@chart-sankey",
+        "body": [
+            "::: chart sankey {\"title\": \"${1:Flow Diagram}\"}",
+            "${2:Source A} -> ${3:Target 1}: ${4:10}",
+            "${2:Source A} -> ${5:Target 2}: ${6:15}",
+            "${7:Source B} -> ${3:Target 1}: ${8:20}",
+            ":::"
+        ],
+        "description": "Sankey diagram for flow visualization."
+    },
+
+    "@Chart Graph": {
+        "prefix": "@chart-graph",
+        "body": [
+            "::: chart graph {\"title\": \"${1:Network Graph}\"}",
+            "${2:A} -> ${3:B}: ${4:10}",
+            "${3:B} -> ${5:C}: ${6:20}",
+            "${2:A} -> ${5:C}: ${7:15}",
+            ":::"
+        ],
+        "description": "Graph chart for network relationships."
+    },
+
+    "@Chart Boxplot": {
+        "prefix": "@chart-boxplot",
+        "body": [
+            "::: chart boxplot {\"title\": \"${1:Box Plot}\"}",
+            "${2:Category A}: ${3:10}, ${4:15}, ${5:20}, ${6:25}, ${7:30}",
+            "${8:Category B}: ${9:8}, ${10:12}, ${11:18}, ${12:22}, ${13:28}",
+            ":::"
+        ],
+        "description": "Box plot for statistical distribution."
+    },
+
+    "@Chart Parallel": {
+        "prefix": "@chart-parallel",
+        "body": [
+            "::: chart parallel {\"title\": \"${1:Parallel Coordinates}\"}",
+            "${2:Price}: ${3:10}, ${4:Speed}: ${5:80}, ${6:Quality}: ${7:90}",
+            "${2:Price}: ${8:15}, ${4:Speed}: ${9:70}, ${6:Quality}: ${10:85}",
+            ":::"
+        ],
+        "description": "Parallel coordinates chart for multi-dimensional data."
+    },
+
+    "@Chart ThemeRiver": {
+        "prefix": "@chart-themeriver",
+        "body": [
+            "::: chart themeRiver {\"title\": \"${1:Theme River}\"}",
+            "${2:2023-01}, ${3:Topic A}: ${4:100}",
+            "${2:2023-01}, ${5:Topic B}: ${6:150}",
+            "${7:2023-02}, ${3:Topic A}: ${8:120}",
+            "${7:2023-02}, ${5:Topic B}: ${9:180}",
+            ":::"
+        ],
+        "description": "Theme river chart for time-series topics flow."
+    },
+
+    "@Chart PictorialBar": {
+        "prefix": "@chart-pictorialbar",
+        "body": [
+            "::: chart pictorialBar {\"title\": \"${1:Pictorial Bar Chart}\"}",
+            "${2:Category A}: ${3:120}",
+            "${4:Category B}: ${5:90}",
+            "${6:Category C}: ${7:150}",
+            ":::"
+        ],
+        "description": "Pictorial bar chart with custom symbols."
+    },
+
+    // ---------- Chart Configuration Options ----------
+    "@Chart with Full Config": {
+        "prefix": "@chart-full-config",
+        "body": [
+            "::: chart ${1|line,bar,pie,area,scatter,radar,gauge,candlestick,doughnut,funnel,heatmap,sankey,graph,boxplot,parallel,themeRiver,pictorialBar|} {\"title\": \"${2:Chart Title}\", \"height\": \"${3:400px}\", \"width\": \"${4:100%}\", \"legend\": ${5|true,false|}, \"smooth\": ${6|true,false|}}",
+            "${7:Data goes here}",
+            ":::"
+        ],
+        "description": "Chart with full configuration options."
+    },
+
+    "@Chart K-Line": {
+        "prefix": "@chart-k-line",
+        "body": [
+            "::: chart k {\"title\": \"${1:K线图}\"}",
+            "${2:2024-01-01}: ${3:2320.26}, ${4:2320.26}, ${5:2287.3}, ${6:2362.94}",
+            "${7:2024-01-02}: ${8:2300}, ${9:2350}, ${10:2290}, ${11:2340}",
+            "${12:2024-01-03}: ${13:2340}, ${14:2380}, ${15:2320}, ${16:2370}",
+            ":::"
+        ],
+        "description": "K线图 (Candlestick chart) for stock data with OHLC format."
+    },
+
+    // ---------- Multi-Series Charts ----------
+    "@Chart Multi-Series Bar": {
+        "prefix": "@chart-bar-multi",
+        "body": [
+            "::: chart bar {\"title\": \"${1:Multi-Series Bar Chart}\", \"legend\": true}",
+            "${2:Sales} | ${3:Q1}: ${4:120}, ${5:Q2}: ${6:132}, ${7:Q3}: ${8:140}, ${9:Q4}: ${10:150}",
+            "${11:Profit} | ${3:Q1}: ${12:80}, ${5:Q2}: ${13:90}, ${7:Q3}: ${14:95}, ${9:Q4}: ${15:100}",
+            ":::"
+        ],
+        "description": "Multi-series bar chart with legend."
+    },
+
+    "@Chart Multi-Series Area": {
+        "prefix": "@chart-area-multi",
+        "body": [
+            "::: chart area {\"title\": \"${1:Multi-Series Area Chart}\", \"legend\": true, \"smooth\": true}",
+            "${2:Desktop} | ${3:Jan}: ${4:120}, ${5:Feb}: ${6:132}, ${7:Mar}: ${8:140}",
+            "${9:Mobile} | ${3:Jan}: ${10:80}, ${5:Feb}: ${11:90}, ${7:Mar}: ${12:100}",
+            ":::"
+        ],
+        "description": "Multi-series area chart with smooth curves."
+    },
+
+    // ---------- Chart Data Templates ----------
+    "@Chart Data Time Series": {
+        "prefix": "@chart-data-timeseries",
+        "body": [
+            "${1:2023-01}: ${2:100}",
+            "${3:2023-02}: ${4:120}",
+            "${5:2023-03}: ${6:90}",
+            "${7:2023-04}: ${8:150}",
+            "${9:2023-05}: ${10:130}",
+            "${11:2023-06}: ${12:170}"
+        ],
+        "description": "Time series data template for charts."
+    },
+
+    "@Chart Data Categories": {
+        "prefix": "@chart-data-categories",
+        "body": [
+            "${1:Category A}: ${2:120}",
+            "${3:Category B}: ${4:90}",
+            "${5:Category C}: ${6:150}",
+            "${7:Category D}: ${8:80}",
+            "${9:Category E}: ${10:200}"
+        ],
+        "description": "Category-based data template for charts."
+    },
+
+    "@Chart Data Multi-Series": {
+        "prefix": "@chart-data-multiseries",
+        "body": [
+            "${1:Series 1} | ${2:A}: ${3:10}, ${4:B}: ${5:20}, ${6:C}: ${7:30}",
+            "${8:Series 2} | ${2:A}: ${9:15}, ${4:B}: ${10:25}, ${6:C}: ${11:35}",
+            "${12:Series 3} | ${2:A}: ${13:12}, ${4:B}: ${14:22}, ${6:C}: ${15:32}"
+        ],
+        "description": "Multi-series data template for charts."
+    },
+
+    // ===================================================================
+    // =================== VUETIFY TIMELINE PLUGIN ======================
+    // ===================================================================
+
+    // ---------- Timeline Plugin Syntax ----------
+    "@Timeline": {
+        "prefix": "@timeline",
+        "body": [
+            ":::: timeline${1: density=\"${2|default,compact,comfortable|}\"}${3: direction=\"${4|vertical,horizontal|}\"}",
+            "$0",
+            "::::"
+        ],
+        "description": "Timeline容器"
+    },
+
+    "@Timeline Start": {
+        "prefix": "@timeline-start",
+        "body": [
+            ":::: timeline",
+            "$0",
+            "::::"
+        ],
+        "description": "左对齐Timeline容器"
+    },
+
+    "@Timeline Center": {
+        "prefix": "@timeline-center", 
+        "body": [
+            ":::: timeline",
+            "$0",
+            "::::"
+        ],
+        "description": "居中Timeline容器"
+    },
+
+    // ---------- Timeline Items (Preset Types) ----------
+    // ===== Timeline项目预设 =====
+    "@Timeline Item Type": {
+        "prefix": "@timelineitem-type",
+        "body": [
+            "::: timeline-item type=\"${1|success,info,warning,error,tip,start,finish,milestone,deadline,meeting,launch,pause,stop,review,approve,reject,pending,progress,complete,todo,doing,done,bug,bug_investigating,bug_fixed,feature,feature_designing,feature_developing,feature_testing,feature_released,task_created,task_assigned,task_started,task_paused,task_resumed,task_completed,task_cancelled,build_started,build_success,build_failed,deploy,deploy_staging,deploy_production,rollback,security,security_issue,security_fixed,performance,performance_issue,performance_optimized,documentation,documentation_updated,release,hotfix,maintenance,optimization,testing,refactor,meeting_completed,decision_made,backup_created,user_feedback,issue_escalated,database_migration,api_deprecated,dependency_updated|}\"",
+            "**${2:标题}**",
+            "",
+            "${3:内容描述}",
+            ":::"
+        ],
+        "description": "Type预设项目 - 支持所有可用type自动补全"
+    },
+
+    "@Timeline Item": {
+        "prefix": "@timelineitem",
+        "body": [
+            "::: timeline-item",
+            "**${2:标题}**",
+            "",
+            "${3:内容描述}",
+            ":::"
+        ],
+        "description": "通用Timeline项目 - 支持所有type和基础颜色选项"
+    },
+
+    // ===== 颜色预设 =====
+    "@Timeline Item Color": {
+        "prefix": "@timelineitem-color",
+        "body": [
+            "::: timeline-item dot-color=\"${1|red,pink,purple,indigo,blue,lightblue,cyan,teal,green,lightgreen,lime,yellow,amber,orange,deeporange,brown,grey,bluegrey,black,white|}\"",
+            "**${2:标题}**",
+            "",
+            "${3:内容描述}",
+            ":::"
+        ],
+        "description": "颜色预设项目 - 支持自动补全"
+    },
+
+    "@Timeline Item Years": {
+        "prefix": "@timelineitem-years",
+        "body": [
+            "::: timeline-item dot-color=\"${1|cyan,green,pink,amber,orange,red,purple,blue,teal,indigo|}\" size=\"small\" opposite=\"${2:年份或时间}\"",
+            "**${3:标题}**",
+            "",
+            "${4:内容描述}",
+            ":::"
+        ],
+        "description": "带年份/时间显示的Timeline项目 - 支持opposite属性"
+    },
+
+    // ---------- Timeline Items (Card Mode) ----------
+    "@Timeline Item Card": {
+        "prefix": "@timelineitem-card",
+        "body": [
+            "::: timeline-item type=\"${1|success,info,warning,error,tip,start,finish,milestone,deadline,meeting,launch,pause,stop,review,approve,reject,pending,progress,complete,todo,doing,done,bug,bug_investigating,bug_fixed,feature,feature_designing,feature_developing,feature_testing,feature_released,task_created,task_assigned,task_started,task_paused,task_resumed,task_completed,task_cancelled,build_started,build_success,build_failed,deploy,deploy_staging,deploy_production,rollback,security,security_issue,security_fixed,performance,performance_issue,performance_optimized,documentation,documentation_updated,release,hotfix,maintenance,optimization,testing,refactor,meeting_completed,decision_made,backup_created,user_feedback,issue_escalated,database_migration,api_deprecated,dependency_updated|}\" card=\"true\" card-title=\"${2:卡片标题}\"",
+            "**${3:内容标题}**",
+            "",
+            "${4:卡片内容}",
+            ":::"
+        ],
+        "description": "预设类型卡片项目 - 支持所有可用type自动补全"
+    },
+
+    "@Timeline Item Card Color": {
+        "prefix": "@timelineitem-card-color",
+        "body": [
+            "::: timeline-item dot-color=\"${1|red,pink,purple,indigo,blue,lightblue,cyan,teal,green,lightgreen,lime,yellow,amber,orange,deeporange,brown,grey,bluegrey,black,white|}\" card=\"true\" card-title=\"${2:卡片标题}\"",
+            "**${3:内容标题}**",
+            "",
+            "${4:卡片内容}",
+            ":::"
+        ],
+        "description": "颜色预设卡片项目 - 自动主题切换"
+    },
+
+    "@Timeline Item Card Custom": {
+        "prefix": "@timelineitem-card-custom",
+        "body": [
+            "::: timeline-item dot-color=\"${1|red,pink,purple,indigo,blue,lightblue,cyan,teal,green,lightgreen,lime,yellow,amber,orange,deeporange,brown,grey,bluegrey,black,white|}\" icon=\"${2:mdi-star}\" card=\"true\" card-title=\"${3:卡片标题}\"",
+            "**${4:内容标题}**",
+            "",
+            "${5:卡片内容}",
+            ":::"
+        ],
+        "description": "自定义颜色+图标卡片项目"
+    },
+
+    // ---------- Timeline Items (Custom) ----------
+    "@Timeline Item Custom": {
+        "prefix": "@timelineitem-custom",
+        "body": [
+            "::: timeline-item dot-color=\"${1|red,pink,purple,indigo,blue,lightblue,cyan,teal,green,lightgreen,lime,yellow,amber,orange,deeporange,brown,grey,bluegrey,black,white|}\" icon=\"${2:mdi-circle}\"${3: size=\"${4|small,default,large,x-large|}\"}${5: opposite=\"${6:年份或时间}\"}",
+            "**${7:自定义标题}**",
+            "",
+            "${8:自定义内容}",
+            ":::"
+        ],
+        "description": "自定义Timeline项目 - 支持颜色预设和opposite属性"
+    },
+
+    "@Timeline Item Custom Full": {
+        "prefix": "@timelineitem-custom-full",
+        "body": [
+            "::: timeline-item dot-color=\"${1|red,pink,purple,indigo,blue,lightblue,cyan,teal,green,lightgreen,lime,yellow,amber,orange,deeporange,brown,grey,bluegrey,black,white|}\" icon=\"${2:mdi-star}\" size=\"${3|small,default,large,x-large|}\" fill-dot=\"${4|true,false|}\" card=\"${5|true,false|}\"${6: card-color=\"${1}\"}${7: card-icon=\"mdi-crown\"}${8: card-icon-align=\"${9|left,right|}\"}${10: opposite=\"${11:年份或时间}\"}",
+            "**${12:标题}**",
+            "",
+            "${13:内容}",
+            ":::"
+        ],
+        "description": "完全自定义Timeline项目 - 颜色预设+自动主题切换+opposite属性"
+    },
+
+    // ---------- End Timeline Container ----------
+    "@x4": {
+        "prefix": "@:x4",
+        "body": [
+            "::::"
+        ],
+        "description": "结束Timeline容器"
+    },
+
+    "@x3": {
+        "prefix": "@:x3",
+        "body": [
+            ":::"
+        ],
+        "description": "结束Timeline容器"
+    },
+    "@Chart Grid Custom": {
+        "prefix": "@chart-grid",
+        "body": [
+            ":::: chart-grid {\"columns\": ${1:2}, \"gap\": \"${2:24px}\", \"minHeight\": \"${3:300px}\", \"responsive\": ${4|true,false|}}",
+            "",
+            "::: chart ${5|pie,bar,line,area,radar,scatter,gauge,doughnut,funnel,heatmap,sankey,graph,candlestick,boxplot,parallel,themeRiver,pictorialBar|} {\"title\": \"${6:Chart Title}\", \"height\": \"${7:300px}\"}",
+            "${8:Chart data}",
+            ":::",
+            "",
+            "$0",
+            "",
+            "::::"
+        ],
+        "description": "自定义图表网格布局，支持完整配置选项。"
+    },
+
+    // ===================================================================
+    // ===================== HTML ESCAPE CHARACTERS =====================
+    // ===================================================================
+
+    "@HTML Less Than": {
+        "prefix": "@<",
+        "body": ["&lt;"],
+        "description": "插入HTML转义的小于号 <"
+    },
+
+    "@HTML Greater Than": {
+        "prefix": "@>",
+        "body": ["&gt;"],
+        "description": "插入HTML转义的大于号 >"
+    },
+
+    "@HTML Ampersand": {
+        "prefix": "@&",
+        "body": ["&amp;"],
+        "description": "插入HTML转义的与符号 &"
+    },
+
+    "@HTML Quote": {
+        "prefix": "@\"",
+        "body": ["&quot;"],
+        "description": "插入HTML转义的双引号 \""
+    },
+
+    "@HTML Apostrophe": {
+        "prefix": "@'",
+        "body": ["&apos;"],
+        "description": "插入HTML转义的单引号 '"
+    },
+
+    "@HTML Non-breaking Space": {
+        "prefix": "@space",
+        "body": ["&nbsp;"],
+        "description": "插入HTML不间断空格"
+    },
+
+    "@HTML Tag Pair": {
+        "prefix": "@<>",
+        "body": ["&lt;${1:tag}&gt;$0&lt;/${1:tag}&gt;"],
+        "description": "插入HTML转义的标签对"
+    },
+
+    "@HTML Self-closing Tag": {
+        "prefix": "@</>",
+        "body": ["&lt;${1:tag} /&gt;"],
+        "description": "插入HTML转义的自闭合标签"
+    },
+
+    "@HTML Opening Tag": {
+        "prefix": "@<o",
+        "body": ["&lt;${1:tag}&gt;"],
+        "description": "插入HTML转义的开始标签"
+    },
+
+    "@HTML Closing Tag": {
+        "prefix": "@<c",
+        "body": ["&lt;/${1:tag}&gt;"],
+        "description": "插入HTML转义的结束标签"
+    },
+
+    "@HTML Angle Brackets": {
+        "prefix": "@<><>",
+        "body": ["&lt;${1:content}&gt;"],
+        "description": "插入HTML转义的尖括号包围内容"
+    }
+}

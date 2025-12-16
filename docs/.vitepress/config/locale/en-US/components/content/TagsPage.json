@@ -1,0 +1,19 @@
+{
+    "clearSelection": "Clear",
+    "list": "List",
+    "loadingError": "Failed to load tag data. Please try again.",
+    "loadingTagData": "Loading tag data...",
+    "matchingTags": "Matching Tags",
+    "morePages": "and {count} more.",
+    "noMatchingPages": "No pages match all selected tags.",
+    "noMatchingPagesHint": "Try removing some tags to see more results.",
+    "noTagsFound": "No tags found.",
+    "pageTitle": "Tags",
+    "pages": "pages",
+    "retry": "Retry",
+    "searchPlaceholder": "Search tags...",
+    "selectedTags": "Pages with tags:",
+    "tagCloud": "Cloud",
+    "totalPages": "Total Pages",
+    "totalTags": "Total Tags"
+}

@@ -1,0 +1,205 @@
+name: Deploy VitePress site
+
+on:
+  push:
+    branches: [main]
+  
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  # Read deployment configuration
+  config:
+    runs-on: ubuntu-latest
+    outputs:
+      deployment-type: ${{ steps.config.outputs.deployment-type }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: docs/yarn.lock
+
+      - name: Install dependencies
+        working-directory: docs
+        run: yarn install --frozen-lockfile
+
+      - name: Read deployment config
+        id: config
+        working-directory: docs
+        run: |
+          # Extract deployment type from project-config.ts
+          DEPLOYMENT_TYPE=$(node -e "
+            const fs = require('fs');
+            const content = fs.readFileSync('.vitepress/config/project-config.ts', 'utf8');
+            const match = content.match(/deployment:\s*\{[\s\S]*?type:\s*['\"]([^'\"]+)['\"][\s\S]*?\}/);
+            console.log(match ? match[1] : 'github-pages');
+          ")
+          echo "deployment-type=$DEPLOYMENT_TYPE" >> $GITHUB_OUTPUT
+
+  # Build the site
+  build:
+    needs: config
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: docs/yarn.lock
+
+      - name: Install dependencies
+        working-directory: docs
+        run: yarn install --frozen-lockfile
+
+      - name: Build with VitePress
+        working-directory: docs
+        run: yarn build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vitepress-dist
+          path: docs/.vitepress/dist
+          retention-days: 1
+
+  # Deploy to GitHub Pages
+  deploy-github:
+    if: needs.config.outputs.deployment-type == 'github-pages'
+    needs: [config, build]
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vitepress-dist
+          path: ./dist
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # Deploy to server via SSH
+  deploy-server:
+    if: needs.config.outputs.deployment-type == 'server'
+    needs: [config, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vitepress-dist
+          path: ./dist
+
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script: |
+            # Clean and create remote directory
+            rm -rf ${{ secrets.REMOTE_PATH }}/*
+            mkdir -p ${{ secrets.REMOTE_PATH }}
+
+      - name: Copy files to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          source: "./dist/*"
+          target: ${{ secrets.REMOTE_PATH }}
+          strip_components: 1
+
+  # Deploy with custom commands
+  deploy-custom:
+    if: needs.config.outputs.deployment-type == 'custom'
+    needs: [config, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+          cache-dependency-path: docs/yarn.lock
+
+      - name: Install dependencies
+        working-directory: docs
+        run: yarn install --frozen-lockfile
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vitepress-dist
+          path: ./docs/.vitepress/dist
+
+      - name: Read deployment commands
+        id: commands
+        working-directory: docs
+        run: |
+          # Extract deployment commands from project-config.ts
+          DEPLOY_CMD=$(node -e "
+            const fs = require('fs');
+            const content = fs.readFileSync('.vitepress/config/project-config.ts', 'utf8');
+            const match = content.match(/deployCommand:\s*['\"]([^'\"]*)['\"]/) || ['', ''];
+            console.log(match[1]);
+          ")
+          POST_DEPLOY_CMD=$(node -e "
+            const fs = require('fs');
+            const content = fs.readFileSync('.vitepress/config/project-config.ts', 'utf8');
+            const match = content.match(/postDeployCommand:\s*['\"]([^'\"]*)['\"]/) || ['', ''];
+            console.log(match[1]);
+          ")
+          echo "deploy-command=$DEPLOY_CMD" >> $GITHUB_OUTPUT
+          echo "post-deploy-command=$POST_DEPLOY_CMD" >> $GITHUB_OUTPUT
+
+      - name: Run custom deployment
+        working-directory: docs
+        run: |
+          # Run deploy command if specified
+          if [ -n "${{ steps.commands.outputs.deploy-command }}" ]; then
+            echo "Executing deploy command..."
+            ${{ steps.commands.outputs.deploy-command }}
+          fi
+          
+          # Run post-deploy command if specified
+          if [ -n "${{ steps.commands.outputs.post-deploy-command }}" ]; then
+            echo "Executing post-deploy command..."
+            ${{ steps.commands.outputs.post-deploy-command }}
+          fi

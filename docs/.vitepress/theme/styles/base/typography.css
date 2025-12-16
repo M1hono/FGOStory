@@ -1,0 +1,27 @@
+/**
+ * Typography Styles
+ * Layout and text styling rules
+ */
+
+/* Base text styles */
+.vp-doc p {
+    line-height: 27px;
+}
+
+/* Headings */
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4,
+.vp-doc h5,
+.vp-doc h6 {
+    font-weight: 500;
+    font-family: inherit;
+}
+
+/* Home page and navigation text */
+.is-home,
+.name .text {
+    font-family: inherit;
+    font-size: 1.05em;
+}

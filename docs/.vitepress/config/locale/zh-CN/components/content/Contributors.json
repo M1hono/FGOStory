@@ -1,0 +1,11 @@
+{
+    "contributions": "贡献",
+    "contributors": "贡献者",
+    "githubError": "GitHub API 错误。可能已达到速率限制。",
+    "loading": "加载中...",
+    "noContributors": "没有贡献者",
+    "retry": "重试",
+    "title": "贡献者",
+    "totalContributions": "总贡献",
+    "viewProfile": "查看个人资料"
+}

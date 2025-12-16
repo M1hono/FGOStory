@@ -1,0 +1,171 @@
+/**
+ * Tag Color Configuration
+ * Centralized color management for tag badges
+ */
+
+:root {
+    /* Version Tags */
+    --tag-color-minecraft: #62c462;
+    --tag-color-neoforge: #ff6b35;
+    --tag-color-forge: #ff6b35;
+    --tag-color-fabric: #dba213;
+
+    /* Content Type Tags */
+    --tag-color-tutorial: #3b82f6;
+    --tag-color-api: #8b5cf6;
+    --tag-color-guide: #10b981;
+    --tag-color-reference: #6366f1;
+
+    /* System Tags */
+    --tag-color-kubejs: #5518fe;
+    --tag-color-entity: #ef4444;
+    --tag-color-events: #ec4899;
+    --tag-color-methods: #06b6d4;
+    --tag-color-ai: #8b5cf6;
+    --tag-color-livingentity: #dc2626;
+
+    /* Data Tags */
+    --tag-color-nbt: #84cc16;
+    --tag-color-config: #f97316;
+    --tag-color-data-structure: #14b8a6;
+
+    /* Fallback Colors for Hash-based Assignment */
+    --tag-color-fallback-0: #22c55e; /* green */
+    --tag-color-fallback-1: #eab308; /* yellow */
+    --tag-color-fallback-2: #6b7280; /* gray */
+    --tag-color-fallback-3: #dc2626; /* red-600 */
+    --tag-color-fallback-4: #2563eb; /* blue-600 */
+    --tag-color-fallback-5: #059669; /* emerald-600 */
+    --tag-color-fallback-6: #7c3aed; /* violet-600 */
+    --tag-color-fallback-7: #f43f5e; /* rose */
+    --tag-color-fallback-8: #a855f7; /* purple */
+    --tag-color-fallback-9: #14b8a6; /* teal */
+}
+
+/* Tag Badge Base Styles */
+.tag-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1;
+    border-radius: 9999px;
+    background-color: var(--tag-bg-color);
+    color: var(--tag-color);
+    border: 1px solid var(--tag-color);
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.tag-badge--clickable {
+    cursor: pointer;
+}
+
+.tag-badge--clickable:hover {
+    background-color: var(--tag-color);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tag-badge__text {
+    user-select: none;
+}
+
+.tag-badge__count {
+    background-color: var(--tag-color);
+    color: white;
+    padding: 0.125rem 0.375rem;
+    border-radius: 9999px;
+    font-size: 0.625rem;
+    font-weight: 600;
+    min-width: 1.25rem;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.tag-badge--clickable:hover .tag-badge__count {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+/* Dark mode styles */
+.dark .tag-badge {
+    border-color: var(--tag-color);
+    background-color: var(--tag-bg-color);
+}
+
+.dark .tag-badge--clickable:hover {
+    background-color: var(--tag-color);
+    color: white;
+}
+
+/* Specific Tag Color Classes */
+.tag-badge[data-tag="minecraft"],
+.tag-badge[data-tag*="minecraft"] {
+    --tag-color: var(--tag-color-minecraft);
+}
+
+.tag-badge[data-tag="neoforge"],
+.tag-badge[data-tag*="neoforge"] {
+    --tag-color: var(--tag-color-neoforge);
+}
+
+.tag-badge[data-tag="forge"] {
+    --tag-color: var(--tag-color-forge);
+}
+
+.tag-badge[data-tag="fabric"] {
+    --tag-color: var(--tag-color-fabric);
+}
+
+.tag-badge[data-tag="tutorial"],
+.tag-badge[data-tag*="tutorial"] {
+    --tag-color: var(--tag-color-tutorial);
+}
+
+.tag-badge[data-tag="api"] {
+    --tag-color: var(--tag-color-api);
+}
+
+.tag-badge[data-tag="guide"] {
+    --tag-color: var(--tag-color-guide);
+}
+
+.tag-badge[data-tag="kubejs"] {
+    --tag-color: var(--tag-color-kubejs);
+}
+
+.tag-badge[data-tag="entity"] {
+    --tag-color: var(--tag-color-entity);
+}
+
+.tag-badge[data-tag="events"] {
+    --tag-color: var(--tag-color-events);
+}
+
+.tag-badge[data-tag="methods"] {
+    --tag-color: var(--tag-color-methods);
+}
+
+.tag-badge[data-tag="ai"] {
+    --tag-color: var(--tag-color-ai);
+}
+
+.tag-badge[data-tag="livingentity"] {
+    --tag-color: var(--tag-color-livingentity);
+}
+
+.tag-badge[data-tag="nbt"] {
+    --tag-color: var(--tag-color-nbt);
+}
+
+.tag-badge[data-tag="config"] {
+    --tag-color: var(--tag-color-config);
+}
+
+.tag-badge[data-tag="数据结构"] {
+    --tag-color: var(--tag-color-data-structure);
+}

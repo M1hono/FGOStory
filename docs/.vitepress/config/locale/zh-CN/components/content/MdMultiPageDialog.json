@@ -1,0 +1,8 @@
+{
+    "closeButton": "关闭",
+    "defaultText": "点击打开",
+    "defaultTitle": "多页对话框",
+    "nextButton": "下一页",
+    "pageIndicator": "第 {current} 页，共 {total} 页",
+    "prevButton": "上一页"
+}

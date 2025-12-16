@@ -1,0 +1,19 @@
+{
+    "clearSelection": "清除",
+    "list": "列表",
+    "loadingError": "加载标签数据失败。请重试。",
+    "loadingTagData": "加载标签数据...",
+    "matchingTags": "匹配标签",
+    "morePages": "还有 {count} 页。",
+    "noMatchingPages": "没有页面匹配所有选定的标签。",
+    "noMatchingPagesHint": "尝试删除一些标签以查看更多结果。",
+    "noTagsFound": "没有找到标签。",
+    "pageTitle": "标签",
+    "pages": "页",
+    "retry": "重试",
+    "searchPlaceholder": "搜索标签...",
+    "selectedTags": "带有标签的页面:",
+    "tagCloud": "云",
+    "totalPages": "总页数",
+    "totalTags": "总标签"
+}

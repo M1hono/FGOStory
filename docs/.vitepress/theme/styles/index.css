@@ -1,0 +1,93 @@
+/**
+ * CryChicDoc VitePress Theme Styles
+ * Single entry point for all theme styling
+ * 
+ * This file imports all CSS modules in the correct order:
+ * 1. Configuration & Variables
+ * 2. Base styles & Foundation
+ * 3. Plugin styles
+ * 4. Component styles
+ */
+
+/* ================== GLOBAL STYLES ================== */
+
+/* ================== CONFIG VARIABLES ================== */
+@import "./config/base-variables.css";
+@import "./config/component-variables.css";
+
+/* ===== BASE STYLES ===== */
+@import "./base/colors.css";
+/* @import "./base/typography.css"; */
+@import "./base/foundation.css";
+/* @import "./base/hero.css"; */
+@import "./base/nav.css";
+@import "./base/sidebar.css";
+
+/* ===== PLUGIN STYLES ===== */
+@import "./plugins/algolia.css";
+@import "./plugins/custom-blocks.css";
+@import "./plugins/code-groups.css";
+@import "./plugins/demo.css";
+@import "./plugins/link-icons.css";
+@import "./plugins/alert.css";
+
+/* ===== COMPONENT STYLES ===== */
+@import "./components/stepper.css";
+@import "./components/carousel.css";
+@import "./components/tags.css";
+@import "./components/timeline.css";
+@import "./components/iframe.css";
+@import "./components/table-grid.css";
+
+/* ===== EXTERNAL PLUGIN IMPORTS ===== */
+/* VitePress plugins */
+@import "vitepress-plugin-nprogress/lib/css/index.css";
+
+/* Nolebase plugins */
+@import "@nolebase/vitepress-plugin-inline-link-preview/client/style.css";
+@import "@nolebase/vitepress-plugin-enhanced-readabilities/client/style.css";
+@import "@nolebase/vitepress-plugin-enhanced-mark/client/style.css";
+@import "@nolebase/vitepress-plugin-git-changelog/client/style.css";
+
+/* Other plugin styles */
+@import "@mdit/plugin-spoiler/style";
+@import "shiki-magic-move/style.css";
+@import "./components/fancybox.css";
+
+/* ===== SSR SUPPORT STYLES ===== */
+.ssr-placeholder {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--vp-c-bg-soft);
+    border: 1px dashed var(--vp-c-border);
+    border-radius: 8px;
+    color: var(--vp-c-text-2);
+    font-size: 14px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.ssr-placeholder:empty {
+    min-height: 20px;
+    background: transparent;
+    border: none;
+}
+
+/* Loading animation for SSR placeholders */
+.ssr-placeholder:not(:empty)::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border: 2px solid var(--vp-c-text-3);
+    border-top: 2px solid var(--vp-c-brand);
+    border-radius: 50%;
+    animation: ssr-loading-spin 1s linear infinite;
+}
+
+@keyframes ssr-loading-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
