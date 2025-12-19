@@ -128,6 +128,21 @@ export interface FGOScript {
 
 export type SceneType = 'dialogue' | 'choice' | 'choice-only' | 'transition'
 
+/** 角色槽位 - 区分预加载和可见状态 */
+export interface CharacterSlot {
+  slot: string                    // "A", "B", "C"...
+  charaGraphId: string
+  baseFace: number
+  displayName: string
+  // 运行时状态
+  visible: boolean                // 是否可见 (charaFadein 后为 true)
+  position: number                // 舞台位置 (0/1/2), -1 表示未设置
+  currentFace: number             // 当前表情
+  isActive: boolean               // 是否高亮（说话中）
+  isSilhouette: boolean           // 是否剪影效果
+}
+
+/** 旧版兼容 - 已废弃，使用 CharacterSlot */
 export interface CharacterState {
   slot: 'A' | 'B' | 'C'
   charaGraphId: number
@@ -215,4 +230,143 @@ export interface FGOCharacterData {
   charScale: number
   active: boolean
   face: number
+}
+
+/** === Dialogue Component Types === */
+
+export type DialogueComponentType =
+  | 'text'
+  | 'newline'
+  | 'playerName'
+  | 'ruby'
+  | 'hiddenName'
+  | 'gender'
+  | 'line'
+  | 'color'
+
+export interface DialogueTextComponent {
+  type: 'text'
+  text: string
+  colorHex?: string
+}
+
+export interface DialogueNewLineComponent {
+  type: 'newline'
+}
+
+export interface DialoguePlayerNameComponent {
+  type: 'playerName'
+  colorHex?: string
+}
+
+export interface DialogueRubyComponent {
+  type: 'ruby'
+  text: string
+  ruby: string
+  colorHex?: string
+}
+
+/** Spoiler 效果 - 隐藏真名 */
+export interface DialogueHiddenNameComponent {
+  type: 'hiddenName'
+  svtId: number
+  hiddenName: string    // 显示的名字（伪名）
+  trueName: string      // 真名（点击后显示）
+  colorHex?: string
+}
+
+export interface DialogueGenderComponent {
+  type: 'gender'
+  male: DialogueComponent[]
+  female: DialogueComponent[]
+  colorHex?: string
+}
+
+export interface DialogueLineComponent {
+  type: 'line'
+  length: number
+  colorHex?: string
+}
+
+export type DialogueComponent =
+  | DialogueTextComponent
+  | DialogueNewLineComponent
+  | DialoguePlayerNameComponent
+  | DialogueRubyComponent
+  | DialogueHiddenNameComponent
+  | DialogueGenderComponent
+  | DialogueLineComponent
+
+/** === Render State Types === */
+
+export interface AudioRenderState {
+  bgm: {
+    id: string
+    url: string
+    volume: number
+    playing: boolean
+  } | null
+  se: {
+    id: string
+    url: string
+  }[]
+  voice: {
+    id: string
+    url: string
+  } | null
+  bgmMuted: boolean
+  seMuted: boolean
+}
+
+export interface DialogueRenderState {
+  speaker?: string
+  speakerSlot?: string
+  components: DialogueComponent[][]  // 多行对话
+  voice?: string
+}
+
+export interface RenderState {
+  background: string | null
+  slots: Map<string, CharacterSlot>     // 所有预加载的角色
+  visibleCharacters: CharacterSlot[]    // 当前可见的角色（已排序）
+  currentDialogue: DialogueRenderState | null
+  currentChoices: ChoiceOption[] | null
+  audio: AudioRenderState
+  sceneType: SceneType
+}
+
+/** === Interaction Config === */
+
+export interface InteractionConfig {
+  dialogueBoxVisible: boolean
+  dialogueBoxClickable: boolean
+  backgroundClickable: boolean
+  choicesVisible: boolean
+}
+
+export const INTERACTION_MAP: Record<SceneType, InteractionConfig> = {
+  'dialogue': {
+    dialogueBoxVisible: true,
+    dialogueBoxClickable: true,
+    backgroundClickable: false,
+    choicesVisible: false
+  },
+  'choice': {
+    dialogueBoxVisible: true,
+    dialogueBoxClickable: false,
+    backgroundClickable: false,
+    choicesVisible: true
+  },
+  'choice-only': {
+    dialogueBoxVisible: false,
+    dialogueBoxClickable: false,
+    backgroundClickable: false,
+    choicesVisible: true
+  },
+  'transition': {
+    dialogueBoxVisible: false,
+    dialogueBoxClickable: false,
+    backgroundClickable: true,
+    choicesVisible: false
+  }
 }

@@ -97,10 +97,22 @@ function formatText(text: string): string {
     .trim()
 }
 
+interface CharacterSlotInternal {
+  slot: string
+  charaGraphId: number
+  position: number
+  displayName: string
+  baseFace: number
+  currentFace: number
+  visible: boolean        // 是否可见 (charaFadein 后为 true)
+  isActive: boolean
+  isSilhouette: boolean
+}
+
 class SceneBuilder {
   private scenes: ParsedScene[] = []
   private current: Partial<ParsedScene>
-  private characters: Map<string, CharacterState> = new Map()
+  private slots: Map<string, CharacterSlotInternal> = new Map()  // 预加载的角色槽位
   private sceneIndex = 0
   private lastBackground = ''
   private pendingChoices: ChoiceOption[] = []
@@ -132,7 +144,8 @@ class SceneBuilder {
         break
         
       case 'charaset':
-        this.setCharacter(args)
+        // 预加载角色到槽位（不显示）
+        this.preloadCharacter(args)
         break
         
       case 'charaface':
@@ -141,7 +154,7 @@ class SceneBuilder {
         
       case 'charatalk':
         if (args[0] === 'off') {
-          this.characters.forEach(c => c.isActive = false)
+          this.slots.forEach(c => c.isActive = false)
         } else if (args[0] === 'on') {
           // do nothing
         } else {
@@ -150,19 +163,18 @@ class SceneBuilder {
         break
         
       case 'charafadein':
-        // 角色淡入，更新位置
-        if (args[2]) {
-          const char = this.characters.get(args[0])
-          if (char) char.position = parseInt(args[2]) as 0 | 1 | 2
-        }
+        // 显示角色（淡入）- 这才是真正让角色可见的指令
+        this.showCharacter(args[0], parseInt(args[1]) || 0, parseInt(args[2]) || undefined)
         break
         
       case 'charafadeout':
-        // 角色淡出，但不移除
+        // 隐藏角色（淡出）
+        this.hideCharacter(args[0])
         break
         
       case 'characlear':
-        this.characters.clear()
+        // 隐藏所有角色
+        this.slots.forEach(c => c.visible = false)
         break
         
       case 'bgm':
@@ -195,12 +207,10 @@ class SceneBuilder {
     this.currentSpeaker = speaker
     this.currentSpeakerSlot = slot
     
-    // 设置说话者为活跃
     if (slot) {
       this.setActiveSpeaker(slot)
     } else {
-      // 尝试通过名称匹配
-      this.characters.forEach((char, s) => {
+      this.slots.forEach((char) => {
         char.isActive = char.displayName === speaker
       })
     }
@@ -230,62 +240,96 @@ class SceneBuilder {
     this.pendingChoices = []
   }
   
-  private setCharacter(args: string[]): void {
+  /** 预加载角色到槽位（不显示） */
+  private preloadCharacter(args: string[]): void {
     const [slot, id, pos, name] = args
-    this.characters.set(slot, {
-      slot: slot as 'A' | 'B' | 'C',
+    this.slots.set(slot, {
+      slot,
       charaGraphId: parseInt(id),
-      position: parseInt(pos) as 0 | 1 | 2,
+      position: parseInt(pos),   // 保存初始位置，但不代表可见
       displayName: name,
-      face: 0,
-      isActive: false
+      baseFace: 0,
+      currentFace: 0,
+      visible: false,            // 关键：预加载时不可见
+      isActive: false,
+      isSilhouette: false
     })
   }
   
+  /** 显示角色（淡入） */
+  private showCharacter(slot: string, duration: number, position?: number): void {
+    const char = this.slots.get(slot)
+    if (char) {
+      char.visible = true        // 关键：fadein 使角色可见
+      if (position !== undefined) {
+        char.position = position
+      }
+    }
+  }
+  
+  /** 隐藏角色（淡出） */
+  private hideCharacter(slot: string): void {
+    const char = this.slots.get(slot)
+    if (char) {
+      char.visible = false       // fadeout 隐藏角色
+    }
+  }
+  
   private setFace(slot: string, face: number): void {
-    const char = this.characters.get(slot)
-    if (char) char.face = face
+    const char = this.slots.get(slot)
+    if (char) char.currentFace = face
   }
   
   private setActiveSpeaker(slot: string): void {
-    this.characters.forEach(char => char.isActive = false)
-    const char = this.characters.get(slot)
+    this.slots.forEach(char => char.isActive = false)
+    const char = this.slots.get(slot)
     if (char) char.isActive = true
   }
   
   private commitScene(): void {
-    // 提交待处理的选项
     if (this.pendingChoices.length > 0) {
       this.commitChoices()
     }
     
-    // 只有有内容的场景才提交
     const hasContent = (this.current.dialogues?.length ?? 0) > 0 || (this.current.choices?.length ?? 0) > 0
     
     if (hasContent) {
-      this.current.characters = Array.from(this.characters.values()).map(c => ({ ...c }))
+      // 只包含可见的角色
+      this.current.characters = Array.from(this.slots.values())
+        .filter(c => c.visible)  // 关键：只返回可见角色
+        .map(c => ({
+          slot: c.slot as 'A' | 'B' | 'C',
+          charaGraphId: c.charaGraphId,
+          position: c.position as 0 | 1 | 2,
+          displayName: c.displayName,
+          face: c.currentFace,
+          isActive: c.isActive,
+          isSilhouette: c.isSilhouette
+        }))
       this.scenes.push(this.current as ParsedScene)
       this.sceneIndex++
     }
     
-    // 重置当前场景
     this.current = this.createEmptyScene()
     this.currentSpeaker = undefined
     this.currentSpeakerSlot = undefined
   }
   
   build(): ParsedScene[] {
-    // 确保最后一个场景被提交
     if ((this.current.dialogues?.length ?? 0) > 0 || this.pendingChoices.length > 0) {
       this.commitScene()
     }
     
-    // 设置总场景数
-    this.scenes.forEach(scene => {
-      scene.index = this.scenes.indexOf(scene)
+    this.scenes.forEach((scene, i) => {
+      scene.index = i
     })
     
     return this.scenes
+  }
+  
+  /** 获取所有预加载的角色槽位（包括不可见的） */
+  getAllSlots(): Map<string, CharacterSlotInternal> {
+    return new Map(this.slots)
   }
 }
 
