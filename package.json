@@ -1,0 +1,23 @@
+{
+  "name": "fgo-story-archive",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "FGO 剧情提取、翻译与展示工具",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/M1hono/FGOStory.git"
+  },
+  "homepage": "https://m1hono.github.io/FGOStory/",
+  "author": "M1hono",
+  "license": "MIT",
+  "scripts": {
+    "dev": "cd docs && yarn dev",
+    "build": "cd docs && yarn build",
+    "preview": "cd docs && yarn preview",
+    "install:all": "cd docs && yarn install"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
