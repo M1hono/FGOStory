@@ -80,7 +80,7 @@ static.atlasacademy.io/{region}/Script/{prefix}/{scriptId}.txt
 ```
 
 **关键数值**:
-- 身体显示高度: **768px** (不是 1024!)
+- 身体显示高度: **768px** (不一定是 1024!)
 - 表情尺寸: **256x256**
 - 表情从 **768px** 位置开始
 - 每行 4 个表情 (1024 / 256)
@@ -202,35 +202,3 @@ const scripts = await fetch(`https://api.atlasacademy.io/nice/JP/svtScript/${cha
 
 const { faceX, faceY, offsetX } = scripts[0]
 ```
-
----
-
-## 五、常用角色 ID
-
-| charaGraphId | 角色 | faceX | faceY |
-|--------------|------|-------|-------|
-| 98001000 | 玛修 (便服) | 384 | 149 |
-| 8001000 | 玛修 (战斗服) | 384 | 149 |
-| 98003000 | Dr.ロマン | 384 | 149 |
-| 10003000 | 祈荒 | 382 | 153 |
-
----
-
-## 六、我们的实现 vs Atlas Academy
-
-### Atlas 方案
-
-```javascript
-figureWrapperTop = (-script.offsetY) * scale
-```
-
-### 我们的方案
-
-```javascript
-// 不使用 top，直接 bottom: 0 贴底
-wrapper.style.bottom = '0'
-wrapper.style.height = `${768 * scale}px`
-```
-
-**原因**: Atlas 的 `offsetY` 针对 1024 分辨率，我们使用 626 背景高度时，贴底方案更稳定。
-
