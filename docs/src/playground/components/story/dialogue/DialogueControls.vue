@@ -1,15 +1,23 @@
 <template>
   <div class="dialogue-controls">
-    <button class="ctrl-btn btn-log" @click.stop="handleCopyText" title="复制对话">
+    <button class="ctrl-btn btn-log" @click.stop="handleCopyText" :title="t.copySuccess">
       <img src="/SystemUI/btn_log.png" alt="copy" />
     </button>
-    <button class="ctrl-btn btn-back" @click.stop="$emit('prev')" title="上一句">
+    <button class="ctrl-btn btn-back" @click.stop="$emit('prev')" :title="t.back">
       <img src="/SystemUI/btn_ff.png" alt="back" />
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useSafeI18n } from '../../../../.vitepress/utils/i18n/locale'
+
+const { t } = useSafeI18n('story/StoryReader', {
+  copySuccess: '复制对话',
+  copyFailed: '复制失败',
+  back: '上一句'
+})
+
 const props = defineProps<{
   dialogueText?: string
 }>()

@@ -826,52 +826,115 @@ class CachedAtlasApi extends AtlasApiService {
 | `98004000` | 达芬奇 | 达芬奇酱 |
 | `98005000` | 奥尔加玛丽 | 前所长 |
 
-### 6.3 获取 NPC 数据
+### 6.3 获取 NPC 数据 (重要！)
+
+**关键发现**: NPC 角色 (ID >= 98000000) 的渲染参数存储在对应从者的 `charaScripts` 数组中：
+
+- `98001000` (玛修便服) → 存储在 `800100` (玛修) 的 `charaScripts` 中
+- `98002000` (芙) → 存储在 `500800` (梅林) 的 `charaScripts` 中
+- `98003000` (罗曼尼) → 存储在 `9935530` (所罗门) 的 `charaScripts` 中
+
+**正确的获取方式**：
 
 ```typescript
-interface NpcCharacter {
-  charaGraphId: string
-  name: string
-  imageUrl: string
-  svtScript?: SvtScript
+// 从 nice_servant.json 提取所有 NPC 数据
+interface NPCScript {
+  charaGraphId: number
+  parentSvtId: number
+  parentSvtName: string
+  faceX: number
+  faceY: number
+  offsetX: number
+  offsetY: number
+  scale: number
+  faceSize?: number
 }
 
-async function getNpcData(region: string, charaGraphId: string): Promise<NpcCharacter | null> {
-  const api = new AtlasApiService(region)
+async function fetchAllNPCs(region: string = 'JP'): Promise<Map<number, NPCScript>> {
+  const response = await fetch(`https://api.atlasacademy.io/export/${region}/nice_servant.json`)
+  const servants = await response.json()
+  const npcMap = new Map<number, NPCScript>()
   
-  // 尝试获取 svtScript
-  const script = await api.getSvtScript(charaGraphId)
-  
-  // 构建图片 URL
-  const imageUrl = getCharaFigureUrl(region, charaGraphId)
-  
-  // 验证图片是否存在
-  try {
-    const response = await fetch(imageUrl, { method: 'HEAD' })
-    if (!response.ok) return null
-  } catch {
-    return null
+  for (const svt of servants) {
+    // 从 charaScripts 提取 NPC 数据
+    for (const cs of svt.charaScripts || []) {
+      if (cs.id >= 98000000) {
+        npcMap.set(cs.id, {
+          charaGraphId: cs.id,
+          parentSvtId: svt.id,
+          parentSvtName: svt.name,
+          faceX: cs.faceX ?? 384,
+          faceY: cs.faceY ?? 149,
+          offsetX: cs.offsetX ?? 0,
+          offsetY: cs.offsetY ?? 0,
+          scale: cs.scale ?? 1.0,
+          faceSize: cs.extendData?.faceSize
+        })
+      }
+    }
+    
+    // 从 extraAssets.charaFigure.story 提取 URL (作为补充)
+    const storyAssets = svt.extraAssets?.charaFigure?.story || {}
+    for (const [storyId, url] of Object.entries(storyAssets)) {
+      const sid = parseInt(storyId)
+      if (sid >= 98000000 && !npcMap.has(sid)) {
+        npcMap.set(sid, {
+          charaGraphId: sid,
+          parentSvtId: svt.id,
+          parentSvtName: svt.name,
+          faceX: 384, faceY: 149, offsetX: 0, offsetY: 0, scale: 1.0
+        })
+      }
+    }
   }
   
-  return {
-    charaGraphId,
-    name: 'NPC',  // NPC 没有名字数据，需要从脚本中获取
-    imageUrl,
-    svtScript: script ?? undefined
-  }
+  return npcMap  // 约 1976 个 NPC
 }
 ```
 
-### 6.4 从脚本中提取 NPC 名称
+**实际测试结果**:
+
+```bash
+$ curl -s "https://api.atlasacademy.io/export/JP/nice_servant.json" | python3 -c "
+import json,sys
+d=json.load(sys.stdin)
+npc_count = sum(1 for svt in d for cs in svt.get('charaScripts', []) if cs.get('id', 0) >= 98000000)
+print(f'NPC 总数: {npc_count}')
+"
+# 输出: NPC 总数: 1976
+```
+
+### 6.4 已实现的 NPC 服务
+
+`docs/src/playground/services/npc-data.ts` 提供以下功能：
+
+```typescript
+import { fetchAllNPCs, getNPCScript, getCharacterRenderData } from './npc-data'
+
+// 预加载所有 NPC (在应用启动时调用)
+preloadNPCData('JP')
+
+// 获取单个 NPC 的渲染参数
+const mash = await getNPCScript(98001000)
+// { charaGraphId: 98001000, parentSvtId: 800100, parentSvtName: 'マシュ・キリエライト', 
+//   faceX: 384, faceY: 149, offsetX: 0, offsetY: 125, scale: 1.0 }
+
+// 获取完整的渲染数据
+const renderData = await getCharacterRenderData(98001000)
+// { script: {...}, figureUrl: '...merged.png', faceUrl: '...f_*.png' }
+```
+
+### 6.5 从脚本中提取 NPC 名称
 
 ```typescript
 function extractNpcNamesFromScript(script: ParsedScript): Map<string, string> {
   const names = new Map<string, string>()
   
-  for (const comp of script.components) {
-    if (comp.type === ScriptComponentType.CHARA_SET) {
-      const charaSet = comp as ScriptCharaSet
-      names.set(charaSet.charaGraphId, charaSet.displayName)
+  for (const scene of script.scenes) {
+    for (const char of scene.characters) {
+      if (char.charaGraphId >= 98000000) {
+        names.set(String(char.charaGraphId), char.displayName)
+      }
     }
   }
   

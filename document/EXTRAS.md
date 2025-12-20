@@ -212,7 +212,7 @@ function getBannerUrl(war: War): string {
 </style>
 ```
 
-### 1.4 活动分类
+### 1.4 活动分类 (多语言支持)
 
 ```typescript
 interface EventCategory {
@@ -233,12 +233,66 @@ type EventType =
   | 'story'           // 剧情
   | 'rerun'           // 复刻
 
-const EVENT_TYPE_LABELS: Record<EventType, string> = {
-  collaboration: '联动活动',
-  seasonal: '季节活动',
-  campaign: '纪念活动',
-  story: '剧情活动',
-  rerun: '复刻活动'
+// 多语言标签配置
+const EVENT_TYPE_LABELS: Record<string, Record<EventType, string>> = {
+  'zh-CN': {
+    collaboration: '联动活动',
+    seasonal: '季节活动',
+    campaign: '纪念活动',
+    story: '剧情活动',
+    rerun: '复刻活动'
+  },
+  'en-US': {
+    collaboration: 'Collaboration',
+    seasonal: 'Seasonal',
+    campaign: 'Campaign',
+    story: 'Story Event',
+    rerun: 'Rerun'
+  },
+  'ja': {
+    collaboration: 'コラボレーション',
+    seasonal: 'シーズナル',
+    campaign: 'キャンペーン',
+    story: 'ストーリー',
+    rerun: '復刻'
+  }
+}
+
+// 多语言关键词检测
+const EVENT_KEYWORDS: Record<EventType, string[]> = {
+  collaboration: [
+    // 日语
+    'コラボ', 'コラボレーション',
+    // 英语
+    'collaboration', 'collab', 'crossover',
+    // 中文
+    '联动', '合作'
+  ],
+  seasonal: [
+    // 日语
+    'サマー', 'クリスマス', 'バレンタイン', 'ハロウィン', '正月', 'お月見',
+    // 英语
+    'summer', 'christmas', 'valentine', 'halloween', 'new year', 'moon',
+    // 中文
+    '夏日', '夏季', '圣诞', '情人节', '万圣节', '新年', '春节'
+  ],
+  rerun: [
+    // 日语
+    '復刻', 'リバイバル',
+    // 英语
+    'rerun', 'revival', 're-run',
+    // 中文
+    '复刻', '重开'
+  ],
+  campaign: [
+    // 日语
+    '周年', 'キャンペーン', '記念',
+    // 英语
+    'anniversary', 'campaign', 'celebration', 'memorial',
+    // 中文
+    '周年', '纪念', '庆典'
+  ],
+  story: []  // 默认类型
 }
 
 /** 按年份分组 */
@@ -253,12 +307,13 @@ function groupEventsByYear(events: Event[]): EventCategory[] {
   
   return Array.from(groups.entries())
     .map(([year, events]) => ({ year, events }))
-    .sort((a, b) => b.year - a.year)  // 最新的在前
+    .sort((a, b) => b.year - a.year)
 }
 
-/** 按类型分组 */
-function groupEventsByType(events: Event[]): EventTypeGroup[] {
+/** 按类型分组 (支持多语言) */
+function groupEventsByType(events: Event[], locale: string = 'zh-CN'): EventTypeGroup[] {
   const groups = new Map<EventType, Event[]>()
+  const labels = EVENT_TYPE_LABELS[locale] || EVENT_TYPE_LABELS['zh-CN']
   
   events.forEach(event => {
     const type = detectEventType(event)
@@ -269,39 +324,50 @@ function groupEventsByType(events: Event[]): EventTypeGroup[] {
   return Array.from(groups.entries())
     .map(([type, events]) => ({
       type,
-      label: EVENT_TYPE_LABELS[type],
+      label: labels[type],
       events
     }))
 }
 
-/** 检测活动类型 */
+/** 检测活动类型 (多语言关键词) */
 function detectEventType(event: Event): EventType {
   const name = event.name.toLowerCase()
   
-  // 联动检测
-  if (name.includes('コラボ') || name.includes('collaboration')) {
-    return 'collaboration'
-  }
-  
-  // 季节检测
-  if (name.includes('サマー') || name.includes('クリスマス') || 
-      name.includes('バレンタイン') || name.includes('ハロウィン')) {
-    return 'seasonal'
-  }
-  
-  // 复刻检测
-  if (name.includes('復刻') || name.includes('rerun')) {
-    return 'rerun'
-  }
-  
-  // 纪念检测
-  if (name.includes('周年') || name.includes('anniversary') ||
-      name.includes('キャンペーン')) {
-    return 'campaign'
+  for (const [type, keywords] of Object.entries(EVENT_KEYWORDS)) {
+    if (type === 'story') continue  // 跳过默认类型
+    
+    for (const keyword of keywords as string[]) {
+      if (name.includes(keyword.toLowerCase())) {
+        return type as EventType
+      }
+    }
   }
   
   return 'story'
 }
+
+// 测试用例
+describe('Event Classification', () => {
+  const testCases = [
+    { name: '空の境界コラボ', expected: 'collaboration' },
+    { name: 'Fate/Zero Collaboration', expected: 'collaboration' },
+    { name: '空之境界联动', expected: 'collaboration' },
+    { name: 'サマーイベント', expected: 'seasonal' },
+    { name: 'Summer Event', expected: 'seasonal' },
+    { name: '夏日祭典', expected: 'seasonal' },
+    { name: '復刻版', expected: 'rerun' },
+    { name: 'Event Rerun', expected: 'rerun' },
+    { name: '5周年記念', expected: 'campaign' },
+    { name: '5th Anniversary', expected: 'campaign' },
+    { name: '普通のイベント', expected: 'story' }
+  ]
+  
+  testCases.forEach(({ name, expected }) => {
+    test(`${name} should be ${expected}`, () => {
+      expect(detectEventType({ name } as Event)).toBe(expected)
+    })
+  })
+})
 ```
 
 ### 1.5 活动页面组件
@@ -1369,6 +1435,57 @@ const originalText = cnMapping.mapToOriginal('暗匿者042说：我要暗匿你'
 ---
 
 ## 七、VitePress 集成
+
+### 7.0 现有脚本工具 (重要!)
+
+项目 `.vitepress/scripts/` 目录包含多个实用工具：
+
+| 脚本 | 命令 | 功能 |
+|------|------|------|
+| `build-sidebar.mjs` | `npm run sidebar` | 自动生成多语言侧边栏 |
+| `create-indexes.mjs` | `npm run index -- -p zh` | 创建目录 index.md 文件 |
+| `generate-tag-data.mjs` | `npm run tags` | 生成标签数据 |
+| `locale-key-sync.mjs` | `npm run i18n` | 同步组件翻译 key |
+| `update-frontmatter.mjs` | - | 更新 frontmatter |
+
+#### 使用 i18n 同步脚本
+
+```bash
+# 同步所有使用 useSafeI18n 的组件翻译
+npm run i18n
+
+# 输出示例:
+# 🔍 Processing script for: DialogueControls.vue
+#    ✅ Successfully extracted script: DialogueControls.vue
+# 🔄 Processing DialogueControls.vue (3 keys)
+#    📋 Found componentId: "story/StoryReader" -> "..."
+```
+
+#### i18n 系统使用方式
+
+```typescript
+// 在组件中使用 i18n
+import { useSafeI18n } from '../../.vitepress/utils/i18n/locale'
+
+const { t } = useSafeI18n('story/StoryReader', {
+  loading: '加载中...',
+  error: '发生错误',
+  copySuccess: '复制成功'
+})
+
+// 在模板中使用
+// <span>{{ t.loading }}</span>
+```
+
+#### 侧边栏自动生成
+
+```bash
+npm run sidebar
+
+# 会扫描 src/ 目录并生成:
+# .vitepress/cache/sidebar/zh.json
+# .vitepress/cache/sidebar/en.json
+```
 
 ### 7.1 自定义布局
 

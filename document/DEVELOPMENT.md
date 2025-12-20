@@ -1095,7 +1095,49 @@ export function useAudio(): UseAudioReturn {
 
 ## 八、测试策略
 
-### 8.1 单元测试
+### 8.1 可用测试页面
+
+已实现的测试页面位于 `docs/src/playground/testPages/`:
+
+| 页面 | URL | 功能 |
+|------|-----|------|
+| `script-parser-test.md` | `/playground/testPages/script-parser-test` | 脚本解析测试 |
+| `story-demo.md` | `/playground/testPages/story-demo` | 故事演示 (角色、对话、选项) |
+| `full-data-flow-test.md` | `/playground/testPages/full-data-flow-test` | 完整数据流测试 |
+
+### 8.2 脚本解析器测试 (已实现)
+
+`ScriptParserTest.vue` 组件提供以下测试功能:
+
+1. **原始脚本加载** - 从 Atlas Academy CDN 加载真实脚本
+2. **解析结果验证** - 显示场景数、对话数、选项数
+3. **NPC 数据测试** - 验证从 `nice_servant.json` 提取的 1976 个 NPC
+4. **角色渲染数据** - 测试 `getCharacterRenderData()` 获取完整渲染参数
+
+```typescript
+// 测试脚本解析
+import { parseScript, loadScript } from './services/script-parser'
+
+const script = await loadScript('JP', '0100000011')
+console.log('场景数:', script.scenes.length)
+console.log('第一个说话者:', script.scenes[0]?.dialogues[0]?.speaker)
+```
+
+### 8.3 NPC 数据测试 (已实现)
+
+```typescript
+// 测试 NPC 数据获取
+import { fetchAllNPCs, getNPCScript } from './services/npc-data'
+
+const npcs = await fetchAllNPCs('JP')
+console.log('NPC 总数:', npcs.size)  // 约 1976
+
+const mash = await getNPCScript(98001000)
+console.log('玛修数据:', mash)
+// { charaGraphId: 98001000, parentSvtId: 800100, faceX: 384, faceY: 149, ... }
+```
+
+### 8.4 单元测试 (规划中)
 
 ```typescript
 // 测试文本解析
